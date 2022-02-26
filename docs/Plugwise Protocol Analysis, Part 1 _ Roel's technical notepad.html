@@ -1,0 +1,914 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0066)https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Plugwise Protocol Analysis, Part 1 | Roel's technical notepad</title>
+
+<link rel="stylesheet" href="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/style.css" type="text/css" media="screen">
+
+<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/base.js"></script><style type="text/css"></style>
+<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/menu.js"></script>
+
+<link rel="pingback" href="https://roheve.wordpress.com/xmlrpc.php">
+<link rel="alternate" type="application/rss+xml" title="Roel&#39;s technical notepad » Feed" href="https://roheve.wordpress.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Roel&#39;s technical notepad » Comments Feed" href="https://roheve.wordpress.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Roel&#39;s technical notepad » Plugwise Protocol Analysis, Part 1 Comments Feed" href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/feed/">
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+	<link rel="stylesheet" id="all-css-0" href="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/saved_resource" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/saved_resource(1)"></script>
+<link rel="stylesheet" id="all-css-0" href="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/style(1).css" type="text/css" media="all">
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://roheve.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Plugwise on Linux" href="https://roheve.wordpress.com/2011/04/13/plugwise-on-linux/">
+<link rel="next" title="Plugwise Protocol Analysis, Part 2" href="https://roheve.wordpress.com/2011/04/25/plugwise-protocol-analysis-part-2/">
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/Plugwise Protocol Analysis, Part 1 _ Roel&#39;s technical notepad.html">
+<link rel="shortlink" href="http://wp.me/p1tWEN-O">
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Froheve.wordpress.com%2F2011%2F04%2F24%2Fplugwise-protocol-analyse%2F&amp;for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Froheve.wordpress.com%2F2011%2F04%2F24%2Fplugwise-protocol-analyse%2F&amp;for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Plugwise Protocol Analysis, Part 1">
+<meta property="og:url" content="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/">
+<meta property="og:description" content="I ordered my Plugwise set two weeks ago, and it arrived a few days later. The hardware looks OK, through it is a bit expensive. Big disadvantage is that it&#39;s windows only, through there are some pe...">
+<meta property="article:published_time" content="2011-04-24T15:03:42+00:00">
+<meta property="article:modified_time" content="2011-05-15T22:10:21+00:00">
+<meta property="og:site_name" content="Roel&#39;s technical notepad">
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:site" content="@wordpressdotcom">
+<meta name="twitter:card" content="summary">
+<meta property="fb:app_id" content="249643311490">
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom">
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png">
+<link rel="openid.server" href="https://roheve.wordpress.com/?openidserver=1">
+<link rel="openid.delegate" href="https://roheve.wordpress.com/">
+<link rel="search" type="application/opensearchdescription+xml" href="https://roheve.wordpress.com/osd.xml" title="Roel&#39;s technical notepad">
+<link rel="search" type="application/opensearchdescription+xml" href="https://wordpress.com/opensearch.xml" title="WordPress.com">
+		<style id="wpcom-hotfix-masterbar-style">
+			@media screen and (min-width: 783px) {
+				#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+					margin-top: 5px;
+				}
+			}
+		</style>
+		<meta name="application-name" content="Roel&#39;s technical notepad"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="thinking and tinkering"><meta name="msapplication-task" content="name=Subscribe;action-uri=https://roheve.wordpress.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="title" content="Plugwise Protocol Analysis, Part 1 | Roel&#39;s technical notepad on WordPress.com">
+<meta name="description" content="I ordered my Plugwise set two weeks ago, and it arrived a few days later. The hardware looks OK, through it is a bit expensive. Big disadvantage is that it&#39;s windows only, through there are some people that have things running with their own software (both Linux and Windows). My goal is to get things…">
+		<script type="text/javascript" src="https://c.amazon-adsystem.com/aax2/amzn_ads.js"></script>
+		<script type="text/javascript">
+		try { amznads.getAds("3033"); } catch(e) { /* ignore */ }
+		</script>
+		<script type="text/javascript">
+		var a9_p = amznads.getKeys(),
+		_ipw_custom = {
+			wordAds: '0',
+			adSafe: '0',
+			domain: 'roheve.wordpress.com',
+			pageURL: 'https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/'
+		};
+		if("undefined"!=typeof a9_p&&""!=a9_p&&null!==a9_p&&"[object Array]"===Object.prototype.toString.call(a9_p)){var a="",b=0,c=a9_p.length;a9_p.sort();for(var d=0;d<c;d++){a9_p[d-b]=a9_p[d-b].replace(/a1x6p/,"a160x600p");var e=a9_p[d-b].split("p");e[0]==a&&(a9_p.splice(d-b,1),b++);a=e[0]}_ipw_custom.amznPay=a9_p};document.close();
+		</script>		<!-- IPONWEB header script -->
+		<script type="text/javascript">
+			window.__ATA = {
+				scriptSrc: '//s.pubmine.com/showad.js',
+				slotPrefix: 'automattic-id-',
+				initAd: function(o) {
+					var o = o || {},
+						g = window,
+						d = g.document,
+						wr = d.write,
+						id = g.__ATA.id();
+					wr.call(d, '<div id="' + id + '" data-section="' + (o.sectionId || 0) + '"' + (o.type ? ('data-type="' + o.type + '"') : '') + ' ' + (o.forcedUrl ? ('data-forcedurl="' + o.forcedUrl + '"') : '') + ' style="width:' + (o.width || 0) + 'px; height:' + (o.height || 0) + 'px;">');
+					g.__ATA.displayAd(id);
+					wr.call(d, '</div>');
+				},
+				displayAd: function(id) {
+					window.__ATA.ids = window.__ATA.ids || {};
+					window.__ATA.ids[id] = 1;
+				},
+				customParams: _ipw_custom,
+				id: function() {
+					return window.__ATA.slotPrefix + (parseInt(Math.random() * 10000, 10) + 1 + (new Date()).getMilliseconds());
+				}
+			};
+			(function(d, ata) {
+				var pr = "https:" === d.location.protocol ? "https:" : "http:",
+					src = pr + ata.scriptSrc,
+					st = "text/javascript";
+				d.write('<scr' + 'ipt type="' + st + '" src="' + src + '"><\/scr' + 'ipt>');
+			})(window.document, window.__ATA);
+		</script><script type="text/javascript" src="https://s.pubmine.com/showad.js"></script>
+		<script type="text/javascript">
+		jQuery(window).ready(function () {
+			jQuery("a.wpa-about").text("About these ads");
+		});
+		</script><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script><script type="text/javascript" async="" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/ga.js"></script>
+<script type="text/javascript" async="" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/saved_resource(2)"></script><link rel="stylesheet" type="text/css" id="gravatar-card-css" href="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/services.css"><script type="text/javascript" async="" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/saved_resource(3)"></script></head>
+
+<body class="single single-post postid-50 single-format-standard mp6 customizer-styles-applied highlander-enabled highlander-light">
+<!-- wrap START -->
+<div id="wrap">
+
+<!-- container START -->
+<div id="container">
+
+<!-- header START -->
+<div id="header">
+
+	<!-- banner START -->
+		<!-- banner END -->
+
+	<div id="caption">
+		<h1 id="title"><a href="https://roheve.wordpress.com/">Roel's technical notepad</a></h1>
+		<div id="tagline">thinking and tinkering</div>
+	</div>
+
+	<div class="fixed"></div>
+</div>
+<!-- header END -->
+
+<!-- navigation START -->
+<div id="navigation">
+	<!-- menus START -->
+	<ul id="menus">
+	<li class="page_item"><a class="home" title="Home" href="https://roheve.wordpress.com/">Home</a></li>
+	<li class="page_item page-item-2"><a href="https://roheve.wordpress.com/about/">About</a></li>
+<li class="page_item page-item-263"><a href="https://roheve.wordpress.com/library/">Library</a></li>
+	<li><a class="lastmenu" href="javascript:void(0);"></a></li>
+</ul>
+
+	<!-- menus END -->
+
+	<!-- searchbox START -->
+	<div id="searchbox">
+		<form action="https://roheve.wordpress.com/" method="get">
+			<div class="content">
+				<input type="text" class="textfield searchtip" name="s" size="24" value="">
+				<input type="submit" class="button" value="">
+			</div>
+		</form>
+	</div>
+<script type="text/javascript">
+//<![CDATA[
+	var searchbox = MGJS.$("searchbox");
+	var searchtxt = MGJS.getElementsByClassName("textfield", "input", searchbox)[0];
+	var searchbtn = MGJS.getElementsByClassName("button", "input", searchbox)[0];
+	var tiptext = "Type text to search here...";
+	if(searchtxt.value == "" || searchtxt.value == tiptext) {
+		searchtxt.className += " searchtip";
+		searchtxt.value = tiptext;
+	}
+	searchtxt.onfocus = function(e) {
+		if(searchtxt.value == tiptext) {
+			searchtxt.value = "";
+			searchtxt.className = searchtxt.className.replace(" searchtip", "");
+		}
+	}
+	searchtxt.onblur = function(e) {
+		if(searchtxt.value == "") {
+			searchtxt.className += " searchtip";
+			searchtxt.value = tiptext;
+		}
+	}
+	searchbtn.onclick = function(e) {
+		if(searchtxt.value == "" || searchtxt.value == tiptext) {
+			return false;
+		}
+	}
+//]]>
+</script>
+	<!-- searchbox END -->
+
+	<div class="fixed"></div>
+</div>
+<!-- navigation END -->
+
+<!-- content START -->
+<div id="content">
+
+	<!-- main START -->
+	<div id="main">
+
+
+	<div id="postpath">
+		<a title="Go to homepage" href="https://roheve.wordpress.com/">Home</a>
+		 &gt; <a href="https://roheve.wordpress.com/category/domotica/" rel="category tag">Domotica</a>		 &gt; Plugwise Protocol Analysis, Part&nbsp;1	</div>
+
+	<div id="post-50" class="post-50 post type-post status-publish format-standard hentry category-domotica tag-plugwise tag-reversing">
+		<h2>Plugwise Protocol Analysis, Part&nbsp;1</h2>
+		<div class="info">
+			<span class="date">24 April 2011</span>
+			<span class="author"><a href="https://roheve.wordpress.com/author/roheve/" title="Posts by roheve" rel="author">roheve</a></span>										<span class="addcomment"><a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#respond">Leave a comment</a></span>
+				<span class="comments"><a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#comments">Go to comments</a></span>
+						<div class="fixed"></div>
+		</div>
+		<div class="content">
+			<p>I ordered my Plugwise set two weeks ago, and it arrived a few days later. The hardware looks OK, through it is a bit expensive. Big disadvantage is that it’s windows only, through there are some people that have things running with their own software (both Linux and Windows). My goal is to get things up-and-running with Linux, but that means some reversing work. I did find two blogs about it, and that was a good starting point.</p>
+<p>To get a quick start I remembered that the netbook I recently bought still has it’s windows partition (I use Linux on it), so I could install the ‘Source’ and check how it works.</p>
+<p>Installation went OK and it discovered my circles (through I still had to type the circle-addresses myself). I only discovered&nbsp; the buttons at the bottom&nbsp;&nbsp;a few days later after wondering how to change settings, but the Plugwise window can be resized. Not many software developers think of somewhat smaller screens (<code>1024*600</code> is not that big a resolution, but also not far from the old <code>1024*768</code> and the also quite popular <code>1366*768</code>).</p>
+<p>I have PlugWise devices with firmware v2.4 (as read from the <span class="skimlinks-unlinked">PlugwiseData.mdb</span>) and the ‘Source’&nbsp; is v2.16</p>
+<h3>Analising the Protocol</h3>
+<p>From <a title="Plugwise on Linux" href="http://hackstuces.blogspot.com/2010/09/plugwise-on-linux.html">Hackstuces</a> I got the idea to use portmon and capture the communication. I did forget to change the max line-length it stores in the log, so for my initial captures (where I configured the circles) some date is truncated. I concentrated my analysis of the protocol with the ‘data gathering’ part, for now.</p>
+<p>Offcourse I also used the findings I found at <a title="Plugwise Protocol Unleashed" href="http://www.maartendamen.com/2010/08/plugwise-unleashed-document-released/">Maartens blog</a>, but it is not complete yet. That is why I’m writing this, documenting what I found and a way to find it again. For the data frame structure, see the Plugwise Unleased document and the blog posts.</p>
+<p>Remember, all communication data is ASCII, and the messages where we are looking at are all HEX digits. There are also some other Ascii messages, but those seem to be informational only and contain no new data. It is probably to aid debugging, likely messages for the circle network. I’ll just ignore them for now.</p>
+<p>Here are three mayor parts I see when looking at the traffic, after starting the ‘Source’.</p>
+<ul>
+<li>Initialisation and clock-synchronisation with the Circle+</li>
+<li>read real-time data from circles</li>
+<li>read stored data from circles</li>
+</ul>
+<p>I Striped out the Start and End (CrLf) sequence, and CRC16 from each message. According to <a title="Zigbee Stack Responce" href="http://domoticaforum.eu/viewtopic.php?f=39&amp;t=4319&amp;sid=181636664c653af0a12f5ba213219641&amp;start=30" target="_blank">this post in Domotica forum</a> the ACK reply can be considered as a notification that the command is being processed (or rejected) and it gives the sequencenumber back for tracking what happens with it. In the dumps below, I omit this ACK reply, to save space.</p>
+<h3>Initialisation</h3>
+<p>This is a simple sequence, where the MAC of the Stick is found, and some synchronisation with the Circle+ takes place.</p>
+<p>For my hardware here are the MAC addresses.</p>
+<ul>
+<li><code>000D6F0000B835CB</code> (Stick)</li>
+<li><code>000D6F0000B1B64B</code> (Circle+)</li>
+</ul>
+<p>This is the sequence of commands and responses I found:</p>
+<p>So to summarise the command/reply sequence:</p>
+<ul>
+<li>(to stick) <code>000A/0011</code>, (to circle+) <code>004E/0000</code> , then a reset (might be just a probe, to see if the network is connected)</li>
+<li>(to stick) <code>000A/0011</code>, <code>0023/0024</code>, <code>0023/0024</code></li>
+<li>(to circle+) <code>0023/0024, 0016/0000, (0008/0000), 0028/0000, 0029/003A, 004A/0000, 003E/003F (the position of the 0008/0000 sequence varies)</code></li>
+<li>(to circle) <code>0023/0024, 003E/003F, 0012/0013</code></li>
+</ul>
+<p>The 08 command contains no MAC, so is a bit strange. It returns the MAC of the Circle+, but before this command there was already communication directly to the Circle+ (probably using the Circle+ MAC from the ‘Source’ configuration). The <code>0016</code> command contains the current date-time.</p>
+<p>There is a difference between reading the Circle+ and the other Circles, but both have Commands <code>0023</code> and <code>003E</code> in common. Now the Circle+ is the coordinator node that has a Clock. That explains some differences, as command <code>0016</code> is a SET clock data and command <code>003E</code> is a GET clock. Maarten already analysed this data. Note that the clock seems to be set to UTC, not local time. The 16-bit integer for Minutes&nbsp; in the date part of the <code>0016</code> command is counted from midnight of the first day of the month.</p>
+<p>Note that command <code>003E</code> is only used in the first round of calling all the circles, so it is part of the initialisation/synchronisation.</p>
+<p>The reply to the initialisation command (<code>000A</code>) gives the MAC-address of the Stick<br>
+<code>w 000A<br>
+r 0011 0001 000D6F0000B835CB 01 01 440D6F0000B1B64B 3B44 FF</code></p>
+<p>In the reply, the sequence number (<code>0001</code>) associated with the command, MAC address Stick (<code>000D6F0000B835CB</code>), 64-bit, two 8-bit fields that are either True (non zero) or False (zero), an <a title="Personal Area Network, that uniquely identifies the network" href="http://domoticaforum.eu/viewtopic.php?f=39&amp;t=4319&amp;sid=181636664c653af0a12f5ba213219641&amp;start=30" target="_blank">Extended PAN ID</a> (<code>440D6F0000B1B64B</code>) 64-bit, and the PAN ID (<code>3B44</code>) 16-bit, and another unknown 8-bit value (<code>FF</code>). The Extended PAN ID looks like the Circle+ MAC with the first byte changed to <code>44</code> instead of <code>00</code>. The value of 44 is set when configuring the network, an changes when the network is destroyed and rebuild.</p>
+<p>Using command 0024 more info is requested from the stick</p>
+<p><code>w 0023 000D6F0000B835CB<br>
+r 0024 0002 000D6F0000B835CB 00000000 00000000 00 80 6539-0700-8510 4CCEC22A 00</code></p>
+<p>This request is weird, maybe a probe if a Circle+ is connected<br>
+<code>w 004E 000D6F0000B1B64B<br>
+r 0000 0003 00F4 000D6F0000B1B64B</code></p>
+<p>Now, for some unknown reason, Initialisation restarts here (does that every time)<br>
+<code>w 000A<br>
+r 0011 0004 000D6F0000B835CB 01 01 440D6F0000B1B64B 3B44 FF</code></p>
+<p>The following two (identical) commands go to [000D6F0000B835CB], the Stick, detected in the previous command<br>
+<code>w 0023 000D6F0000B835CB<br>
+r 0024 0005 000D6F0000B835CB 00000000 00000000 00 80 6539-0700-8510 4CCEC22A 00<br>
+w 0023 000D6F0000B835CB<br>
+r 0024 0006 000D6F0000B835CB 00000000 00000000 00 80 6539-0700-8510 4CCEC22A 00</code></p>
+<p>So to summarise the command/reply sequence:<br>
+(to stick) <code>000A/0011</code>, (to circle+) <code>004E/0000</code> , then a reset<br>
+(to stick) <code>000A/0011, 0023/0024, 0023/0024</code></p>
+<p>First time data-scan from circles is different for Circle+ and normal Circles. I omit the capture, just the <span style="color:#800000;">commands</span>.</p>
+<p style="padding-left:30px;">Circle+ <span style="color:#993300;">0023/0024</span>, 0016/0000, (0008/0000), 0028/0000, 0029/003A, 004A/0000, <span style="color:#993300;">003E/003F</span></p>
+<p style="padding-left:30px;">Circle+ <code><span style="color:#993300;">003E</span>&nbsp;reply 003F <span style="color:#339966;">000D</span> 000D6F0000B1B64B <span style="color:#ff00ff;">12 1B 2A 06 <span style="color:#993366;">01 45 7A</span></span></code></p>
+<p style="padding-left:30px;">Circle&nbsp;&nbsp; <code><span style="color:#993300;">0023/0024</span>, <span style="color:#993300;">003E/003F</span>, 0012/0013</code></p>
+<p style="padding-left:30px;">Circle&nbsp; <code><span style="color:#993300;">003E</span>&nbsp;reply 003F <span style="color:#339966;">0012</span> 000D6F0000AF4C47 <span style="color:#ff00ff;">12 1B 28 06<span style="color:#993366;"> 01 45 7A</span></span></code></p>
+<p>Both give about the same reply, a different <span style="color:#339966;">sequence number</span>, almost <span style="color:#ff00ff;">identical time stamp,</span> an identical&nbsp; <span style="color:#993366;">unknowns</span>.</p>
+<p>Noticed that several commands return a <code>0000</code>-reply. Those replies have the same structure, reply code <code>0000</code>, 16-bit sequence value, another 16-bit value (probably bit-fields, some kind of status, it seems) and a 64-bit MAC address.</p>
+<h3>Read real-time data from circles</h3>
+<p>All Circles are read with <span style="color:#993300;"><code>0023/0024</code></span> and <span style="color:#993300;"><code>0012/0013</code></span> command/reply pairs. The handling of the Circle+ is not different from others, after the initialisation sequence completed. The Source (awefull name)&nbsp; keeps asking for data, so it can display real-time data.</p>
+<p><code>w 0023 000D6F0000B1B64B<br>
+r 0024 0056 000D6F0000B1B64B 0B048013 00044480 01 85 6539-0700-7324 4CCEBFA1 01<br>
+w 0012 000D6F0000B1B64B<br>
+r 0013 0058 000D6F0000B1B64B 002F0175 00010AA7 00000000 0004<br>
+w 0023 000D6F0000B1B967<br>
+r 0024 005A 000D6F0000B1B967 0B048014 00044470 01 85 6539-0701-4023 4CCEC0C2 02<br>
+w 0012 000D6F0000B1B967<br>
+r 0013 005B 000D6F0000B1B967 00070038 00002E14 00000000 0004</code></p>
+<h3>Read stored data from circles</h3>
+<p>Al Circles are read with command/reply <code>0048/0049</code>. It takes more than one command to read one circle.</p>
+<p><code>W 0048 000D6F0000B1A240 00044460<br>
+R 0049 0051 000D6F0000B1A240 0B047F80 00000A87 0B047FBC 00000ACF 0B047FF8 00000AAC FFFFFFFF FFFFFFFF 00044460<br>
+W 0048 000D6F0000B1A240 00044440<br>
+R 0049 0052 000D6F0000B1A240 0B047E90 00000A9B 0B047ECC 00000AD4 0B047F08 00000B0B 0B047F44 00000B0E 00044440<br>
+W 0048 000D6F0000B1A240 00044420<br>
+R 0049 0053 000D6F0000B1A240 0B047DA0 00000A8C 0B047DDC 00000A98 0B047E18 00000A6D 0B047E54 00000A71 00044420<br>
+</code></p>
+<p><code>W 0048 000D6F0000B1B5B6 00044480<br>
+R 0049 0054 000D6F0000B1B5B6 FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF 00044480<br>
+W 0048 000D6F0000B1B5B6 00044460<br>
+R 0049 0055 000D6F0000B1B5B6 0B047F44 000021AA 0B047F80 000020F1 0B047FBC 0000216D 0B047FF8 0000213E 00044460<br>
+W 0048 000D6F0000B1B5B6 00044440<br>
+R 0049 0057 000D6F0000B1B5B6 0B047E54 00036708 0B047E90 00035291 0B047ECC 00000DD3 0B047F08 00002199 00044440<br>
+W 0048 000D6F0000B1B5B6 00044420<br>
+R 0049 0059 000D6F0000B1B5B6 0B047D64 000349C5 <span style="color:#800000;">0B047DA0</span> 0003538A 0B047DDC 0003541F 0B047E18 000355A4 00044420</code></p>
+<p>I have not attempted to decode the <code>0049</code> replies. From the data structure I assume that 8 values ( 32 bit each) are returned, probably in pairs belonging together. I also assume the parameter in the 0048 command and the matching one in the <code>0049</code> reply (for example “<code>00044420</code>“) is some sort of buffer-code. &nbsp;I did read about a buffer address mentioned in the explanation of the device info command, but not this command structure.</p>
+<p>[later] I think the pairs of data is a power-value followed by a timestamp. The timestamp has the same structure as the date-word of the 0016 command. This means that&nbsp; value <span style="color:#800000;"><code>0B 04 7DA0</code></span> could mean Year 2011, Month April,&nbsp; From the start of the month <code>32160</code> minutes, this is 536 hour, which is 22 days and 8 hour. Somewhere during the 23rd of april (yesterday), when the data was captured. So that is most likely.</p>
+<p>[days later] The structure of this reply is explained in the plugwise unleased documents, and indeed 4 pairs of data, each pair represents one hour of accummulated power usage.</p>
+<h3>Timing</h3>
+<p>In the previous two sections, different data is retrieved. While analizing the log-captures, I noticed that both processes run at the same time. So a <code>0023</code> command starts and before de <code>0024</code> reply is received a <code>0048</code> command is send. Then the <code>0024</code> reply arrives followed with the <code>0049</code> reply. in between I also see the ACK replies. It is likely that the next command is not send before the ACK is received, but I am not sure if that is the case. Might be that usually the ACK is generated by the NC in the circle+, and has less delay as data-replies, so arrives shortly after the command is send. I assume that data-reply first needs to get back from a circle to the NC before it is transmitted to the stick.</p>
+<p>It is not possible match a command directly with an ACK, but the ACK has the same sequence-number as the data-reply, which arrives later, and can be matched with a command. I suggest to&nbsp; not wait for results from a command, just process what arrives. For error correction, wait for the first (fast) ACK reply and store the sequence number and associate that with the command (evaluate the value too for error processing). E.g. <code>00C1</code> is an OK response, but I did see this type of message used for other things (like responding with <code>00E1</code> instead of the expected reply), that could considered as some kind of timeout in the Zigbee network.</p>
+<p>A forum post mentions that <code>00C2</code> and <code>00C3</code> are error-return codes from the ZigBee stack and that&nbsp;the command and it is not accepted.</p>
+		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<a class="wpa-about" href="https://wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+				<div class="u">
+					<script type="text/javascript">
+					(function(g){g.__ATA.initAd({sectionId:26942, width:300, height:250});})(window);
+					</script><div id="automattic-id-5113" data-section="26942" style="width:300px; height:250px;"></div>
+				</div>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled">
+<div id="jp-relatedposts" class="jp-relatedposts" style="display: block;">
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-minimal"><p class="jp-relatedposts-post jp-relatedposts-post0" data-post-id="174" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://roheve.wordpress.com/2012/10/07/plugwise-protocol-analysis-part-6-firmware-update-observations/" title="Plugwise Protocol Analysis, Part 6 (Firmware update observations)
+
+Last year, there was a new firmware release for the PlugWise system. Curious as I was, I captured the communication between &quot;Source&quot; and the &quot;Stick&quot;as I did for the other protocol analysis sessions. Today I found me notes about this and document them here. The intention of this is to…" rel="nofollow" data-origin="50" data-position="0">Plugwise Protocol Analysis, Part 6 (Firmware update observations)</a></span><span class="jp-relatedposts-post-context">In "Domotica"</span></p><p class="jp-relatedposts-post jp-relatedposts-post1" data-post-id="96" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://roheve.wordpress.com/2011/05/15/plugwise-protocol-analysis-part-3/" title="Plugwise Protocol Analysis, Part 3
+
+Adding a Module Found that a Circle Module that is not part of the network advertises itself by periodically broadcasting it&#39;s MAC with an associated CmdID of &quot;0006&quot;. The Source Software responds with a &quot;0007&quot; message&quot;, accepting or rejecting the Module. This could be a way to detect unconfigured plugs in…" rel="nofollow" data-origin="50" data-position="1">Plugwise Protocol Analysis, Part 3</a></span><span class="jp-relatedposts-post-context">In "Domotica"</span></p><p class="jp-relatedposts-post jp-relatedposts-post2" data-post-id="150" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://roheve.wordpress.com/2011/07/17/dual-boot-windows7-and-ubuntu-on-my-netbook/" title="Dual boot Windows7 and Ubuntu on my Netbook
+
+Added Linux to my Netbook that came with Windows pre-installed. As I use mostly Linux at home, but occasionaly need Windows (e.g my plugwise gadgets came with a windows only software). As I do not want to install &#39;home&#39; software on my Windows 7  &#39;work&#39;  laptop, I decided to keep this…" rel="nofollow" data-origin="50" data-position="2">Dual boot Windows7 and Ubuntu on my Netbook</a></span><span class="jp-relatedposts-post-context">In "Linux"</span></p></div></div></div>						<div class="fixed"></div>
+		</div>
+		<div class="under">
+			<span><span class="categories">Categories: </span><a href="https://roheve.wordpress.com/category/domotica/" rel="category tag">Domotica</a></span>
+			<span><span class="tags">Tags: </span><a href="https://roheve.wordpress.com/tag/plugwise/" rel="tag">PlugWise</a>, <a href="https://roheve.wordpress.com/tag/reversing/" rel="tag">reversing</a></span>
+		</div>
+		<div class="fixed"></div>
+	</div>
+
+	
+
+<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/comment.js"></script>
+
+<div id="comments">
+
+	
+		<div id="cmtswitcher">
+										<a id="commenttab" class="curtab" href="javascript:void(0);" onclick="MGJS.switchTab(&#39;thecomments,commentnavi&#39;, &#39;thetrackbacks&#39;, &#39;commenttab&#39;, &#39;curtab&#39;, &#39;trackbacktab&#39;, &#39;tab&#39;);">
+					Comments (3)				</a>
+				<a id="trackbacktab" class="tab" href="javascript:void(0);" onclick="MGJS.switchTab(&#39;thetrackbacks&#39;, &#39;thecomments,commentnavi&#39;, &#39;trackbacktab&#39;, &#39;curtab&#39;, &#39;commenttab&#39;, &#39;tab&#39;);">
+					Trackbacks (1)				</a>
+			
+							<span class="addcomment"><a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#respond">Leave a comment</a></span>
+			
+							<span class="addtrackback"><a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/trackback/">Trackback</a></span>
+					</div><!-- #cmtswitcher -->
+
+		<div id="commentlist">
+
+			<!-- Comments -->
+			<ol id="thecomments">
+								<li id="comment-8" class="comment even thread-even depth-1 highlander-comment">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/4fa09dd2e1139888ec9a200bae64c004" class="avatar avatar-32 grav-hashed grav-hijack" height="32" width="32" id="grav-4fa09dd2e1139888ec9a200bae64c004-0">			</div><!-- .pic -->
+			<div class="name">
+				titioft			</div><!-- .name -->
+		</div>
+
+		<div class="info">
+			<div class="date">
+				28 July 2011 at 23:11			</div><!-- .date -->
+			<div class="act">
+				<a rel="nofollow" class="comment-reply-link" href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/?replytocom=8#respond" onclick="return addComment.moveForm( &quot;comment-8&quot;, &quot;8&quot;, &quot;respond&quot;, &quot;50&quot; )" aria-label="Reply to titioft">Reply</a>							</div><!-- .act -->
+			<div class="content">
+				
+				<div id="commentbody-8">
+					<p>Good work…</p>
+<p>For the 0x49 reply here is the content of the data:<br>
+$results is the string I receive in my xpl-plugwise module. </p>
+<p>position 18 length 6 : you can read the short device MAC address<br>
+position 24 length 8 : hour of 1st buffer (abshour format)<br>
+position 32 length 8 : Usage in pulses of 1st hour<br>
+position 40 length 8 : hour of 2nd buffer (abshour format)<br>
+position 48 length 8 : Usage in pulses of 2nd hour<br>
+position 56 length 8 : hour of 3rd buffer (abshour format)<br>
+position 64 length 8 : Usage in pulses of 3rd hour<br>
+position 72 length 8 : hour of 4th buffer (abshour format)<br>
+position 80 length 8 : Usage in pulses of 4th hour<br>
+position 88 length 8 : Address of the current buffer</p>
+<p>A 0x49 is a reply to 0x48 (sic). </p>
+<p>The $packet is what I send to the stick<br>
+        $packet = “0048” . “000D6F0000” . uc($circle) . uc($msg-&gt;lastlog);<br>
+Where $circle is the short MAC address<br>
+and $msg-&gt;lastlog is the log address requested</p>
+<p>My sub in perl to return the time in local time zone in readable format<br>
+sub plughr2time<br>
+{<br>
+  my $result=$_[0];<br>
+  my $year=2000+hex2int(substr($result,0,2));<br>
+  my $month=sprintf(“%02d”,hex2int(substr($result,2,2)));<br>
+	my $plughr=hex2int(substr($result,4,4));<br>
+	my $day=int($plughr/1440);<br>
+	my $hour=int(($plughr-$day*1440)/60);<br>
+	my $minutes=$plughr-$day*1440-$hour*60;<br>
+	printf(“Result: $result \nYear:%04d Month:%02d Day:%02d Hour:%02d Minute:%02d \n”,$year,$month,$day,$hour,$minutes);<br>
+	return sprintf(“%04d%02d%02d%02d%02d”,$year,$month,$day,$hour,$minutes);<br>
+}</p>
+				</div><!-- #commentbody-ID -->
+			</div><!-- .comment -->
+			<div class="fixed"></div>
+		</div><!-- .info -->
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+	<li id="comment-14" class="comment odd alt thread-odd thread-alt depth-1 highlander-comment">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/c6d953f505a4dca347735b177e6e4c33" class="avatar avatar-32 grav-hashed grav-hijack" height="32" width="32" id="grav-c6d953f505a4dca347735b177e6e4c33-0">			</div><!-- .pic -->
+			<div class="name">
+				Xaho			</div><!-- .name -->
+		</div>
+
+		<div class="info">
+			<div class="date">
+				14 September 2011 at 11:16			</div><!-- .date -->
+			<div class="act">
+				<a rel="nofollow" class="comment-reply-link" href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/?replytocom=14#respond" onclick="return addComment.moveForm( &quot;comment-14&quot;, &quot;14&quot;, &quot;respond&quot;, &quot;50&quot; )" aria-label="Reply to Xaho">Reply</a>							</div><!-- .act -->
+			<div class="content">
+				
+				<div id="commentbody-14">
+					<p>I seem to have run into a little problem…<br>
+When I send a message to retrieve the buffer with logaddress I retrieved earlier with the device information request all I get is a response filled with FFFFFFFF’s…<br>
+Any idea what I’m doing wrong?<br>
+I’d love to hear suggestions <span class="wp-smiley wp-emoji wp-emoji-smile" title=":)">:)</span></p>
+<p>Message sent: 0023000D6F0000992A8BD6EC<br>
+Received message: 0024012B000D6F0000992A8B0B094B48000443C001856539070140224CCEC0C202B557<br>
+Message sent: 0048000D6F0000992A8B000443C047A9<br>
+Received message: 0049012C000D6F0000992A8BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000443C0455B</p>
+				</div><!-- #commentbody-ID -->
+			</div><!-- .comment -->
+			<div class="fixed"></div>
+		</div><!-- .info -->
+		<div class="fixed"></div>
+<ul class="children">
+	<li id="comment-15" class="comment even depth-2 highlander-comment">
+		<div class="author">
+			<div class="pic">
+				<img alt="" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/c6d953f505a4dca347735b177e6e4c33" class="avatar avatar-32 grav-hashed grav-hijack" height="32" width="32" id="grav-c6d953f505a4dca347735b177e6e4c33-1">			</div><!-- .pic -->
+			<div class="name">
+				Xaho			</div><!-- .name -->
+		</div>
+
+		<div class="info">
+			<div class="date">
+				14 September 2011 at 14:43			</div><!-- .date -->
+			<div class="act">
+				<a rel="nofollow" class="comment-reply-link" href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/?replytocom=15#respond" onclick="return addComment.moveForm( &quot;comment-15&quot;, &quot;15&quot;, &quot;respond&quot;, &quot;50&quot; )" aria-label="Reply to Xaho">Reply</a>							</div><!-- .act -->
+			<div class="content">
+				
+				<div id="commentbody-15">
+					<p>Solved my problem <span class="wp-smiley wp-emoji wp-emoji-smile" title=":)">:)</span></p>
+<p>The logaddress I received by asking device information was the address of the current hour.<br>
+By reducing the value by 32 decimal (or 0x20) I suddenly got the results I was hoping for.<br>
+Information about the previous four hours of power usage! <span class="wp-smiley wp-emoji wp-emoji-bigsmile" title=":D">:D</span></p>
+				</div><!-- #commentbody-ID -->
+			</div><!-- .comment -->
+			<div class="fixed"></div>
+		</div><!-- .info -->
+		<div class="fixed"></div>
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+						</ol><!-- #thecomments -->
+
+			
+			<!-- Trackbacks and Pingbacks -->
+			<ol id="thetrackbacks">
+										<li id="comment-18" class="pingback even thread-even depth-1 trackback highlander-comment">
+		<div class="date">
+			24 March 2012 at 10:26		</div><!-- .date -->
+		<div class="act">
+					</div><!-- .act -->
+		<div class="title">
+			<a href="http://www.ip-symcon.de/forum/f53/plugwise-ohne-server-direkt-auslesen-schalten-17348/index6.html#post156698" rel="external nofollow" class="url">Plugwise ohne Server direkt auslesen/schalten - Seite 6 - IP-Symcon Community Forum</a>		</div><!-- .title -->
+</li><!-- #comment-## -->
+							</ol><!-- #thetrackbacks -->
+
+		</div><!-- #commentlist -->
+	
+
+				<div id="respond" class="comment-respond js">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://roheve.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="6800888fed"><input type="hidden" name="_wp_http_referer" value="/2011/04/24/plugwise-protocol-analyse/">
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest">
+
+<div class="comment-form-field comment-textarea">
+	
+	<div id="comment-form-comment"><textarea tabindex="-1" style="position: absolute; top: -999px; left: 0px; right: auto; bottom: auto; border: 0px; padding: 0px; box-sizing: content-box; word-wrap: break-word; overflow: hidden; transition: none; height: 0px !important; min-height: 0px !important; font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif; font-size: 14px; font-weight: 400; font-style: normal; letter-spacing: 0px; text-transform: none; text-decoration: none; word-spacing: 0px; text-indent: 0px; line-height: normal; width: 563px;" class="autosizejs "></textarea><textarea id="comment" name="comment" title="Enter your comment here..." placeholder="Enter your comment here..." style="height: 36px; overflow: hidden; word-wrap: break-word; resize: none;"></textarea></div>
+</div>
+
+<div id="comment-form-identity" style="display: none;">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/saved_resource.html" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/ad516503a11cd5ca435acc9bb6523536" alt="Gravatar" width="25" class="no-grav">
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value=""></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/wplogo.png" alt="WordPress.com Logo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="">
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your <span class="skimlinks-unlinked">WordPress.com</span> account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;wordpress&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/ad516503a11cd5ca435acc9bb6523536" alt="Twitter picture" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="">
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;twitter&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/ad516503a11cd5ca435acc9bb6523536" alt="Facebook photo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="">
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;facebook&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/ad516503a11cd5ca435acc9bb6523536" alt="Google+ photo" width="25" class="no-grav">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="">
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;googleplus&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe" style="display: none;">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit" style="display: none;"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="50" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="54729e8942"></p>
+<input type="hidden" name="genseq" value="1453045162">
+<p style="display: none;"></p>				<input type="hidden" id="ak_js" name="ak_js" value="1453045152984"></form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+</div><!-- #comments -->
+
+	<div id="postnavi">
+		<span class="prev"><a href="https://roheve.wordpress.com/2011/04/25/plugwise-protocol-analysis-part-2/" rel="next">Plugwise Protocol Analysis, Part&nbsp;2</a></span>
+		<span class="next"><a href="https://roheve.wordpress.com/2011/04/13/plugwise-on-linux/" rel="prev">Plugwise on Linux</a></span>
+		<div class="fixed"></div>
+	</div>
+
+
+	</div>
+	<!-- main END -->
+
+	
+<!-- sidebar START -->
+<div id="sidebar">
+
+<!-- sidebar north START -->
+<div id="northsidebar" class="sidebar">
+
+	<!-- feeds -->
+	<div class="widget widget_feeds">
+		<div class="content">
+			<div id="subscribe-feeds"><a rel="external nofollow" id="feedrss" title="Subscribe to this blog..." href="https://roheve.wordpress.com/feed/" class=" "><abbr title="Really Simple Syndication">RSS</abbr> feed</a><ul id="feed_readers" style="visibility: hidden; display: block; left: 1115px; top: 186px;"><li id="google_reader"><a rel="external nofollow" class="reader" title="Subscribe with Google" href="http://fusion.google.com/add?feedurl=https://roheve.wordpress.com/feed/"><span>Google</span></a></li><li id="youdao_reader"><a rel="external nofollow" class="reader" title="Subscribe with Youdao" href="http://reader.youdao.com/#url=https://roheve.wordpress.com/feed/"><span>Youdao</span></a></li><li id="xianguo_reader"><a rel="external nofollow" class="reader" title="Subscribe with Xian Guo" href="http://www.xianguo.com/subscribe.php?url=https://roheve.wordpress.com/feed/"><span>Xian Guo</span></a></li><li id="zhuaxia_reader"><a rel="external nofollow" class="reader" title="Subscribe with Zhua Xia" href="http://www.zhuaxia.com/add_channel.php?url=https://roheve.wordpress.com/feed/"><span>Zhua Xia</span></a></li><li id="yahoo_reader"><a rel="external nofollow" class="reader" title="Subscribe with My Yahoo!" href="http://add.my.yahoo.com/rss?url=https://roheve.wordpress.com/feed/"><span>My Yahoo!</span></a></li><li id="newsgator_reader"><a rel="external nofollow" class="reader" title="Subscribe with newsgator" href="http://www.newsgator.com/ngs/subscriber/subfext.aspx?url=https://roheve.wordpress.com/feed/"><span>newsgator</span></a></li><li id="bloglines_reader"><a rel="external nofollow" class="reader" title="Subscribe with Bloglines" href="http://www.bloglines.com/sub/https://roheve.wordpress.com/feed/"><span>Bloglines</span></a></li><li id="inezha_reader"><a rel="external nofollow" class="reader last" title="Subscribe with iNezha" href="http://inezha.com/add?url=https://roheve.wordpress.com/feed/"><span>iNezha</span></a></li></ul></div>
+
+			<!-- twitter -->
+			
+			<div class="fixed"></div>
+		</div>
+	</div>
+
+	<!-- showcase -->
+	
+<div id="wp_tag_cloud-2" class="widget wp_widget_tag_cloud"><h3></h3><div style="overflow:hidden"><a href="https://roheve.wordpress.com/tag/cifs/" class="tag-link-677636" title="1 topic" style="font-size: 8pt;">CIFS</a>
+<a href="https://roheve.wordpress.com/tag/dns-query/" class="tag-link-8030427" title="1 topic" style="font-size: 8pt;">dns query</a>
+<a href="https://roheve.wordpress.com/tag/ipv6/" class="tag-link-10414" title="1 topic" style="font-size: 8pt;">ipv6</a>
+<a href="https://roheve.wordpress.com/tag/ldap-provider/" class="tag-link-80301138" title="1 topic" style="font-size: 8pt;">ldap provider</a>
+<a href="https://roheve.wordpress.com/tag/linux/" class="tag-link-610" title="1 topic" style="font-size: 8pt;">linux</a>
+<a href="https://roheve.wordpress.com/tag/networking/" class="tag-link-7426" title="2 topics" style="font-size: 12.2pt;">networking</a>
+<a href="https://roheve.wordpress.com/tag/nginx/" class="tag-link-697649" title="1 topic" style="font-size: 8pt;">nginx</a>
+<a href="https://roheve.wordpress.com/tag/opendsobject/" class="tag-link-156760691" title="1 topic" style="font-size: 8pt;">opendsobject</a>
+<a href="https://roheve.wordpress.com/tag/plugwise/" class="tag-link-55083275" title="7 topics" style="font-size: 22pt;">PlugWise</a>
+<a href="https://roheve.wordpress.com/tag/powershell/" class="tag-link-178495" title="1 topic" style="font-size: 8pt;">PowerShell</a>
+<a href="https://roheve.wordpress.com/tag/privacy/" class="tag-link-3279" title="1 topic" style="font-size: 8pt;">privacy</a>
+<a href="https://roheve.wordpress.com/tag/python/" class="tag-link-832" title="1 topic" style="font-size: 8pt;">python</a>
+<a href="https://roheve.wordpress.com/tag/reversing/" class="tag-link-299073" title="6 topics" style="font-size: 20.833333333333pt;">reversing</a>
+<a href="https://roheve.wordpress.com/tag/smb/" class="tag-link-10523" title="1 topic" style="font-size: 8pt;">SMB</a>
+<a href="https://roheve.wordpress.com/tag/tpm/" class="tag-link-64000" title="1 topic" style="font-size: 8pt;">TPM</a>
+<a href="https://roheve.wordpress.com/tag/vbscript/" class="tag-link-833" title="1 topic" style="font-size: 8pt;">VBscript</a>
+<a href="https://roheve.wordpress.com/tag/webserver/" class="tag-link-28027" title="1 topic" style="font-size: 8pt;">webserver</a>
+<a href="https://roheve.wordpress.com/tag/whs/" class="tag-link-457868" title="1 topic" style="font-size: 8pt;">whs</a>
+<a href="https://roheve.wordpress.com/tag/windows/" class="tag-link-800" title="1 topic" style="font-size: 8pt;">Windows</a></div></div><div id="tag_cloud-2" class="widget widget_tag_cloud"><h3></h3><div style="overflow: hidden;"><a href="https://roheve.wordpress.com/category/domotica/" style="font-size: 275%; padding: 1px; margin: 1px;" title="Domotica (7)">Domotica</a> <a href="https://roheve.wordpress.com/category/linux-2/" style="font-size: 170%; padding: 1px; margin: 1px;" title="Linux (4)">Linux</a> <a href="https://roheve.wordpress.com/category/things/" style="font-size: 100%; padding: 1px; margin: 1px;" title="Things (2)">Things</a> <a href="https://roheve.wordpress.com/category/uncategorized/" style="font-size: 100%; padding: 1px; margin: 1px;" title="Uncategorized (2)">Uncategorized</a> <a href="https://roheve.wordpress.com/category/windows/" style="font-size: 135%; padding: 1px; margin: 1px;" title="Windows (3)">Windows</a> </div></div><div id="archives-2" class="widget widget_archive"><h3>Archives</h3>		<ul>
+			<li><a href="https://roheve.wordpress.com/2014/12/">December 2014</a></li>
+	<li><a href="https://roheve.wordpress.com/2014/05/">May 2014</a></li>
+	<li><a href="https://roheve.wordpress.com/2013/09/">September 2013</a></li>
+	<li><a href="https://roheve.wordpress.com/2013/07/">July 2013</a></li>
+	<li><a href="https://roheve.wordpress.com/2013/03/">March 2013</a></li>
+	<li><a href="https://roheve.wordpress.com/2012/10/">October 2012</a></li>
+	<li><a href="https://roheve.wordpress.com/2011/07/">July 2011</a></li>
+	<li><a href="https://roheve.wordpress.com/2011/05/">May 2011</a></li>
+	<li><a href="https://roheve.wordpress.com/2011/04/">April 2011</a></li>
+		</ul>
+		</div><div id="meta-2" class="widget widget_meta"><h3>Meta</h3>			<ul>
+			<li><a href="https://wordpress.com/start?ref=wplogin">Register</a></li>			<li><a href="https://roheve.wordpress.com/wp-login.php">Log in</a></li>
+			<li><a href="https://roheve.wordpress.com/feed/">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://roheve.wordpress.com/comments/feed/">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://wordpress.com/?ref=footer_website">Create a free website or blog at WordPress.com.</a></li>			</ul>
+			</div><div id="linkcat-42925" class="widget widget_links"><h3>Actueel</h3>
+	<ul class="xoxo blogroll">
+<li><a href="http://imfacts.nl/asl-2-itil-v3-verhoudingen/" title="Hoe liggen de verhoudingen nu?" target="_blank">ASL 2 en ITIL v3</a></li>
+<li><a href="https://www.vrijbit.nl/dossiers/dossier-paspoortwet.html" title="Over vingerafdrukken in passport en idkaart en een overheid die de beloofde veranderingen middels vertragingstaktiek niet doorvoert." target="_blank">Dossier paspoortwet (vrijbit)</a></li>
+
+	</ul>
+</div>
+	</div>
+</div>
+<!-- sidebar END -->
+	<div class="fixed"></div>
+</div>
+<!-- content END -->
+
+<!-- footer START -->
+<div id="footer">
+	<a id="gotop" href="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/#" onclick="MGJS.goTop();return false;">Top</a>
+	<div id="themeinfo">
+		<a href="https://wordpress.com/?ref=footer_website">Create a free website or blog at WordPress.com.</a> <a href="https://wordpress.com/themes/inove/" title="Learn more about this theme">The INove Theme</a>.	</div>
+</div>
+<!-- footer END -->
+
+</div>
+<!-- container END -->
+</div>
+<!-- wrap END -->
+
+<!-- wpcom_wp_footer -->
+<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/wpgroho.js"></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-4fa09dd2e1139888ec9a200bae64c004">
+	</div>
+	<div class="grofile-hash-map-c6d953f505a4dca347735b177e6e4c33">
+	</div>
+	</div>
+<script type="text/javascript">
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/roheve.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/roheve.wordpress.com\/wp-login.php?action=logout&_wpnonce=0547b70d3a","homeURL":"https:\/\/roheve.wordpress.com\/","postID":"50","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/saved_resource(4)"></script>
+
+	<div id="bit" class="loggedout-follow-normal" style="bottom: -247px;">
+		<a class="bsub" href="javascript:void(0)"><span id="bsub-text">Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow “Roel's technical notepad”</label></h3>
+
+			<form action="https://subscribe.wordpress.com/" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+			
+			<p><input type="email" name="email" placeholder="Enter your email address" id="loggedout-follow-field"></p>
+
+			<input type="hidden" name="action" value="subscribe">
+			<input type="hidden" name="blog_id" value="21913329">
+			<input type="hidden" name="source" value="https://roheve.wordpress.com/2011/04/24/plugwise-protocol-analyse/">
+			<input type="hidden" name="sub-type" value="loggedout-follow">
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="cb0f237a41"><input type="hidden" name="_wp_http_referer" value="/2011/04/24/plugwise-protocol-analyse/">
+			<p id="bsub-subscribe-button"><input type="submit" value="Sign me up"></p>
+			</form>
+					<div id="bsub-credit"><a href="https://wordpress.com/?ref=lof">Build a website with WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/form.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var JetpackEmojiSettings = {"base_url":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/emoji\/twemoji\/"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/saved_resource(5)"></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "roheve.wordpress.com";
+	</script>
+	<script type="text/javascript" src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/725X1342.skimlinks.js"></script><script src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/w.js" type="text/javascript" async="" defer=""></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'21913329','blog_tz':'2','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'21913329','v':'wpcom','tz':'2','user_id':'0','post':'50','subd':'roheve'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdTdvUG14Q2VDQTR4LlUsLi82dU1mai9BMm5LPytqWkpxbS9HVDJYMHZmWmRUb0hpS2otPWFdNUhhVlNhKzlvW1EzZSwzY0FOfmhONls5OE55bmVvajIvUFhJaE5MOUNlQnMzRltEZ3hIRy8saW5rc1pxVTJzdFMuNHhjU35kZ2VVPUlSejBBW21DaXFWb3QxL0t4OUdOZ2xtVThMUEk4T2Y/ZGssZjBwb3kzX015RWJkRnZJRk5sYXlNRkZdMnBzaGl+ZTlmbythSkNlN2Rnai5SVnJMRDRKWU9ncDddRSY1VjdhTkhNfm1+aUtfVi5raGhCZl1NNVN0NkY2JW5mUC01REljYWh+Z2Y2VFMldl8zYkw1Ml9kW3FkMXN3bmQ='}]);
+_stq.push([ 'clickTrackerInit', '21913329', '50' ]);
+	</script>
+<noscript>&lt;img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /&gt;</noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+
+<img src="./Plugwise Protocol Analysis, Part 1 _ Roel's technical notepad_files/g.gif" id="wpstats"><script id="hiddenlpsubmitdiv" style="display: none;"></script><script>try{(function() { for(var lastpass_iter=0; lastpass_iter < document.forms.length; lastpass_iter++){ var lastpass_f = document.forms[lastpass_iter]; if(typeof(lastpass_f.lpsubmitorig2)=="undefined"){ lastpass_f.lpsubmitorig2 = lastpass_f.submit; if (typeof(lastpass_f.lpsubmitorig2)=='object'){ continue;}lastpass_f.submit = function(){ var form=this; var customEvent = document.createEvent("Event"); customEvent.initEvent("lpCustomEvent", true, true); var d = document.getElementById("hiddenlpsubmitdiv"); if (d) {for(var i = 0; i < document.forms.length; i++){ if(document.forms[i]==form){ if (typeof(d.innerText) != 'undefined') { d.innerText=i.toString(); } else { d.textContent=i.toString(); } } } d.dispatchEvent(customEvent); }form.lpsubmitorig2(); } } }})()}catch(e){}</script></body></html>
