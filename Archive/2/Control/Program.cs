@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Threading;
-using System.IO.Ports;
-using System.Text;
-using XBee;
-using XBee.Frames;
 
-namespace Controller
+var quit = new ManualResetEvent(false);
+Console.CancelKeyPress += ((_, _) => quit.Set());
+
+Console.WriteLine("Hello, World!");
+
+var _quit = new ManualResetEvent(false);
+    
+Console.WriteLine("Staring Application...");
+Thread.CurrentThread.Name = "MainThread";
+        
+//Start Controller Thread
+new Thread(delegate()
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Staring Application...");
-            Console.WriteLine("Running on " + ((Platform.IsLinux) ? "Linux" : "Windows"));
+    Controller.Controller.Start();
+}).Start();
 
-            Thread.CurrentThread.Name = "MainThread";
-            //Start Controller Thread
-            new Thread(delegate ()
-            {
-                Controller.Start();
-            }).Start();
+Console.CancelKeyPress += (_, _) =>
+{
+    _quit.Set();
+};
 
-            for (; ; ) { }
-        }
-    }
-}
+_quit.WaitOne();
+    
+Console.WriteLine("Bye World!");

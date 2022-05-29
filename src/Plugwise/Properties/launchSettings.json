@@ -1,0 +1,15 @@
+﻿{
+  "profiles": {
+    "Plugwise": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:4002",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "PLUGWISE_SERIAL_PORT": "/dev/ttyUSB0"
+      }
+    }
+  }
+}

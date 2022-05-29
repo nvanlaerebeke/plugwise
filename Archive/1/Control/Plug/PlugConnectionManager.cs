@@ -26,8 +26,8 @@ namespace Controller
 
         private static string ComPort()
         {
-            string strBasePath = "/dev/serial/by-id/";
-            string strDeviceName = "usb-FTDI_FT232R_USB_UART_A8005W0Y-if00-port0";
+            var strBasePath = "/dev/serial/by-id/";
+            var strDeviceName = "usb-FTDI_FT232R_USB_UART_A8005W0Y-if00-port0";
 
             Console.WriteLine("Locating Plugwise COM Port...");
             Console.WriteLine("Using " + strBasePath + strDeviceName);

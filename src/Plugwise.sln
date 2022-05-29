@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlugwiseControl", "PlugwiseControl\PlugwiseControl.csproj", "{D321AEFD-D7DB-4EE5-9229-244BE11E3372}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugwise", "Plugwise\Plugwise.csproj", "{A7998997-3883-4944-8D7A-641BCE53CA58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D321AEFD-D7DB-4EE5-9229-244BE11E3372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D321AEFD-D7DB-4EE5-9229-244BE11E3372}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D321AEFD-D7DB-4EE5-9229-244BE11E3372}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D321AEFD-D7DB-4EE5-9229-244BE11E3372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7998997-3883-4944-8D7A-641BCE53CA58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7998997-3883-4944-8D7A-641BCE53CA58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7998997-3883-4944-8D7A-641BCE53CA58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7998997-3883-4944-8D7A-641BCE53CA58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

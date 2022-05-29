@@ -1,43 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PlugwiseLib.BLL.BC;
 
-using System.Text;
-using PlugwiseLib.BLL.BC;
-using plugwiseLib.BLL.BPC;
+namespace PlugwiseLib.UTIL;
 
-namespace PlugwiseLib.UTIL
+public class PlugwiseMessageConverter
 {
-    public class PlugwiseMessageConverter
+    public static PlugwisePowerUsageMessage ConvertToPowerUsage(PlugwiseMessage msg)
     {
-        public static PlugwisePowerUsageMessage ConvertToPowerUsage(PlugwiseMessage msg)
+        PlugwisePowerUsageMessage output = null;
+        if (msg.Type == Convert.ToInt32(PlugwiseActions.Status))
         {
-            PlugwisePowerUsageMessage output = null;
-            if (msg.Type == Convert.ToInt32(PlugwiseActions.Status))
-            {
-                output = new PlugwisePowerUsageMessage(msg);
-            }
-            return output;
+            output = new PlugwisePowerUsageMessage(msg);
         }
 
-        public static PlugwiseCalibrationMessage ConvertToCalibrationMessage(PlugwiseMessage msg)
+        return output;
+    }
+
+    public static PlugwiseCalibrationMessage ConvertToCalibrationMessage(PlugwiseMessage msg)
+    {
+        PlugwiseCalibrationMessage output = null;
+        if (msg.Type == Convert.ToInt32(PlugwiseActions.Calibration))
         {
-            PlugwiseCalibrationMessage output = null;
-            if (msg.Type == Convert.ToInt32(PlugwiseActions.Calibration))
-            {
-                output = new PlugwiseCalibrationMessage(msg);
-            }
-            return output;
+            output = new PlugwiseCalibrationMessage(msg);
         }
 
-        public static PlugwiseStatusMessage ConvertToStatusMessage(PlugwiseMessage msg)
+        return output;
+    }
+
+    public static PlugwiseStatusMessage ConvertToStatusMessage(PlugwiseMessage msg)
+    {
+        PlugwiseStatusMessage output = null;
+        if (msg.Type == Convert.ToInt32(PlugwiseActions.Status))
         {
-            PlugwiseStatusMessage output = null;
-            if (msg.Type == Convert.ToInt32(PlugwiseActions.Status))
-            {
-                output = new PlugwiseStatusMessage(msg);
-            }
-            return output;
+            output = new PlugwiseStatusMessage(msg);
         }
-        
+
+        return output;
     }
 }

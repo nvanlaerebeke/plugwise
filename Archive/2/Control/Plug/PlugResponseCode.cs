@@ -1,18 +1,18 @@
 ﻿using System;
 using PlugwiseLib.BLL.BC;
 
-namespace Controller
+namespace Controller;
+
+internal class PlugResponseCode
 {
-    class PlugResponseCode
+    public static string GetResponseCode(PlugwiseActions pAction)
     {
-        public static string GetResponseCode(PlugwiseActions pAction)
+        switch (pAction)
         {
-            switch (pAction) { 
-                case PlugwiseActions.Status:
-                    return "0024";
-                default:
-                    throw new Exception("Unknown Response code");
-            }
+            case PlugwiseActions.Status:
+                return "0024";
+            default:
+                throw new Exception("Unknown Response code");
         }
     }
 }

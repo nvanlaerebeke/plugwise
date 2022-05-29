@@ -1,133 +1,125 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace PlugwiseLib.BLL.BPC;
 
-using System.Text;
-
-namespace PlugwiseLib.BLL.BPC
+public enum PlugwiseSerialPortRequest
 {
-    public enum PlugwiseSerialPortRequest
+    on,
+    off,
+    status,
+    calibration,
+    powerinfo,
+    history
+}
+
+public class PlugwiseSerialPortFactory
+{
+    /// <summary>
+    ///     This factory returns the strings that will be sent to the serial port when a certain command needs the be activated
+    /// </summary>
+    /// <param name="req">The type of request that has to be sent to the plugs</param>
+    /// <param name="mac">The mac address of the receiver</param>
+    /// <returns></returns>
+    public static string Create(PlugwiseSerialPortRequest req, string mac)
     {
-        on,
-        off,
-        status,
-        calibration,
-        powerinfo,
-        history
+        var output = "";
+        switch (req)
+        {
+            case PlugwiseSerialPortRequest.on:
+                output = GetOnMessage(mac);
+                break;
+            case PlugwiseSerialPortRequest.off:
+                output = getOffMessage(mac);
+                break;
+            case PlugwiseSerialPortRequest.status:
+                output = getStatusMessage(mac);
+                break;
+            case PlugwiseSerialPortRequest.calibration:
+                output = getCalibrationMessage(mac);
+                break;
+            case PlugwiseSerialPortRequest.powerinfo:
+                output = getPowerinfoMessage(mac);
+                break;
+        }
+
+        return output;
     }
-    public class PlugwiseSerialPortFactory
+
+    public static string Create(PlugwiseSerialPortRequest req, string logId, string mac)
     {
-        /// <summary>
-        /// This factory returns the strings that will be sent to the serial port when a certain command needs the be activated
-        /// </summary>
-        /// <param name="req">The type of request that has to be sent to the plugs</param>
-        /// <param name="mac">The mac address of the receiver</param>
-        /// <returns></returns>
-        public static string Create(PlugwiseSerialPortRequest req,string mac)
+        var output = "";
+        switch (req)
         {
-            string output = "";
-            switch (req)
-            {
-                case PlugwiseSerialPortRequest.on:
-                    output = PlugwiseSerialPortFactory.GetOnMessage(mac);
-                    break;
-                case PlugwiseSerialPortRequest.off:
-                    output = PlugwiseSerialPortFactory.getOffMessage(mac);
-                    break;
-                case PlugwiseSerialPortRequest.status:
-                    output = PlugwiseSerialPortFactory.getStatusMessage(mac);
-                    break;
-                case PlugwiseSerialPortRequest.calibration:
-                    output = PlugwiseSerialPortFactory.getCalibrationMessage(mac);
-                    break;
-                case PlugwiseSerialPortRequest.powerinfo:
-                    output = PlugwiseSerialPortFactory.getPowerinfoMessage(mac);
-                    break;
-               
-            }
-            return output;
+            case PlugwiseSerialPortRequest.history:
+
+                output = getHistoryMessage(mac, logId);
+                break;
         }
 
-        public static string Create(PlugwiseSerialPortRequest req,string logId,string mac)
-        {
-            string output = "";
-            switch (req)
-            {
-                case PlugwiseSerialPortRequest.history:
+        return output;
+    }
 
-                    output = PlugwiseSerialPortFactory.getHistoryMessage(mac,logId);
-                    break;
-            }
-           
-            return output;
-        }
+    private static string getPowerinfoMessage(string mac)
+    {
+        var output = "";
+        var crc = new Crc16Ccitt(InitialCrcValue.Zeros);
+        var crcValue = crc.ComputeChecksumString("0012" + mac);
+        output = GetStart() + "0012" + mac + crcValue + GetEnd();
+        return output;
+    }
 
-        private static string getPowerinfoMessage(string mac)
-        {
-            string output = "";
-            Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.Zeros);
-            string crcValue = crc.ComputeChecksumString("0012" + mac);
-            output = PlugwiseSerialPortFactory.GetStart() + "0012" + mac + crcValue + PlugwiseSerialPortFactory.GetEnd();
-            return output;
-        }
+    private static string GetOnMessage(string mac)
+    {
+        var output = "";
+        var crc = new Crc16Ccitt(InitialCrcValue.Zeros);
+        var crcValue = crc.ComputeChecksumString("0017" + mac + "01");
+        output = GetStart() + "0017" + mac + "01" + crcValue + GetEnd();
 
-        private static string GetOnMessage(string mac)
-        {
-            string output = "";
-            Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.Zeros);
-            string crcValue = crc.ComputeChecksumString("0017" + mac + "01");
-            output =PlugwiseSerialPortFactory.GetStart() + "0017" + mac + "01" + crcValue + PlugwiseSerialPortFactory.GetEnd();
-        
-            return output;
-        }
+        return output;
+    }
 
-        private static string getOffMessage(string mac)
-        {
-            string output = "";
-            Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.Zeros);
-            string crcValue = crc.ComputeChecksumString("0017" + mac + "00");
-            output = PlugwiseSerialPortFactory.GetStart() + "0017" + mac + "00" + crcValue + PlugwiseSerialPortFactory.GetEnd();
-            return output;
- 
-        }
+    private static string getOffMessage(string mac)
+    {
+        var output = "";
+        var crc = new Crc16Ccitt(InitialCrcValue.Zeros);
+        var crcValue = crc.ComputeChecksumString("0017" + mac + "00");
+        output = GetStart() + "0017" + mac + "00" + crcValue + GetEnd();
+        return output;
+    }
 
-        private static string getStatusMessage(string mac)
-        {
-            string output = "";
-            Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.Zeros);
-            string crcValue = crc.ComputeChecksumString("0023" + mac);
-            output = PlugwiseSerialPortFactory.GetStart() + "0023" + mac + crcValue + PlugwiseSerialPortFactory.GetEnd();
-            return output;
-        }
+    private static string getStatusMessage(string mac)
+    {
+        var output = "";
+        var crc = new Crc16Ccitt(InitialCrcValue.Zeros);
+        var crcValue = crc.ComputeChecksumString("0023" + mac);
+        output = GetStart() + "0023" + mac + crcValue + GetEnd();
+        return output;
+    }
 
-        private static string getCalibrationMessage(string mac)
-        {
-            string output = "";
-            Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.Zeros);
-            string crcValue = crc.ComputeChecksumString("0026" + mac);
-            output = PlugwiseSerialPortFactory.GetStart() + "0026" + mac + crcValue + PlugwiseSerialPortFactory.GetEnd();
-            return output;
-        }
+    private static string getCalibrationMessage(string mac)
+    {
+        var output = "";
+        var crc = new Crc16Ccitt(InitialCrcValue.Zeros);
+        var crcValue = crc.ComputeChecksumString("0026" + mac);
+        output = GetStart() + "0026" + mac + crcValue + GetEnd();
+        return output;
+    }
 
-        private static string getHistoryMessage(string mac, string logId)
-        {
-            string output = "";
-            Crc16Ccitt crc = new Crc16Ccitt(InitialCrcValue.Zeros);
-            string crcValue = crc.ComputeChecksumString("0048" + mac + logId);
-            output = PlugwiseSerialPortFactory.GetStart() + "0048" + mac + logId + crcValue + PlugwiseSerialPortFactory.GetEnd();
-            return output;
-        }
+    private static string getHistoryMessage(string mac, string logId)
+    {
+        var output = "";
+        var crc = new Crc16Ccitt(InitialCrcValue.Zeros);
+        var crcValue = crc.ComputeChecksumString("0048" + mac + logId);
+        output = GetStart() + "0048" + mac + logId + crcValue + GetEnd();
+        return output;
+    }
 
 
+    public static string GetStart()
+    {
+        return "" + (char) 5 + (char) 5 + (char) 3 + (char) 3;
+    }
 
-        public static string GetStart()
-        {
-            return "" + (char)5 + (char)5 + (char)3 + (char)3;
-        }
-
-        public static string GetEnd()
-        {
-           
-           return "" + (char)13 + (char)10;
-        }
+    public static string GetEnd()
+    {
+        return "" + (char) 13 + (char) 10;
     }
 }

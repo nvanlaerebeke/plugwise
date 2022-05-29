@@ -1,97 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{02729EA0-C190-4FD8-BDA3-40214FB8F62D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Controller</RootNamespace>
-    <AssemblyName>Controller</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Mono.Posix">
-      <HintPath>..\lib\Mono.Posix.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="GPIO\GPIOConnectionManager.cs" />
-    <Compile Include="GPIO\SwitchType.cs" />
-    <Compile Include="Main\Controller.cs" />
-    <Compile Include="GPIO\Listener.cs" />
-    <Compile Include="Main\GaragePort.cs" />
-    <Compile Include="Plug\Plug.cs" />
-    <Compile Include="Plug\PlugConnectionManager.cs" />
-    <Compile Include="Plug\PlugRequest.cs" />
-    <Compile Include="Plug\PlugResponseCode.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Plug\PIPlugSwitchController.cs" />
-    <Compile Include="Utilities\Platform.cs" />
-    <Compile Include="XBee\XBeeXBeeSwitchController.cs" />
-    <Compile Include="XBee\Enums\FrameType.cs" />
-    <Compile Include="XBee\Enums\Protocol.cs" />
-    <Compile Include="XBee\Enums\XBeePort.cs" />
-    <Compile Include="XBee\Enums\XBeePortValue.cs" />
-    <Compile Include="XBee\Objects\XBee.cs" />
-    <Compile Include="XBee\Utils\ByteUtils.cs" />
-    <Compile Include="XBee\Utils\EnumAttribute.cs" />
-    <Compile Include="XBee\XBeeCommunicator.cs" />
-    <Compile Include="XBee\PIXBeeSwitchController.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\plugwiselib-94877\PlugwiseLib.csproj">
-      <Project>{1FFBE852-B315-4412-BBF6-C1776DADC269}</Project>
-      <Name>PlugwiseLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\raspberry-sharp-io-master\raspberry-sharp-io-master\Raspberry.IO.GeneralPurpose\Raspberry.IO.GeneralPurpose.csproj">
-      <Project>{281C71ED-C36D-408E-8BAA-75C381DC17E7}</Project>
-      <Name>Raspberry.IO.GeneralPurpose</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\XBee\XBee.csproj">
-      <Project>{026296FF-9939-49DC-AD87-7F8780D7E1B0}</Project>
-      <Name>XBee</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="GPIO\**" />
+        <Compile Remove="XBee\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Remove="GPIO\**" />
+        <EmbeddedResource Remove="XBee\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="GPIO\**" />
+        <None Remove="XBee\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\plugwiselib-94877\PlugwiseLib.csproj" />
+    </ItemGroup>
+
 </Project>

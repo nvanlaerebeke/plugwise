@@ -1,89 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
-using PlugwiseLib;
-using PlugwiseLib.BLL.BC;
 using System.Diagnostics;
 using System.Reflection;
-using System.IO;
+using PlugwiseLib.BLL.BC;
 
-namespace Controller
+namespace Controller;
+
+internal class Plug
 {
-    class Plug
+    private bool? _blnOn;
+
+    public Plug(string pMac)
     {
-        private string _strMac;
-        private bool? _blnOn;
+        Console.WriteLine("Added Plug " + pMac);
+        Mac = pMac;
+    }
 
-        public Plug(string pMac)
-        {
-            Console.WriteLine("Added Plug " + pMac);
-            _strMac = pMac;
-        }
+    public string Mac { get; }
 
-        public string Mac
+    public bool? On
+    {
+        get
         {
-            get { return _strMac; }
-        }
-
-        public bool? On
-        {
-            get
+            if (_blnOn == null)
             {
-                if (_blnOn == null)
-                {
-                    Console.WriteLine("Current plug state is unknown");
-                    Console.WriteLine("Getting current plug status...");
-                    if (Platform.IsLinux)
-                    {
-                        ProcessStartInfo startInfo = new ProcessStartInfo();
-                        string strFileName = Path.GetDirectoryName(Uri.UnescapeDataString(new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path)) + Path.DirectorySeparatorChar + "plugwise_util";
-                        Console.WriteLine(strFileName);
-                        startInfo.FileName = strFileName;
-                        startInfo.Arguments = "-m " + Mac + " -q relay_state";
-                        startInfo.UseShellExecute = false;
-                        startInfo.RedirectStandardOutput = true;
-                        startInfo.CreateNoWindow = true;
-                        Process objProc = new Process();
-                        objProc.StartInfo = startInfo;
+                Console.WriteLine("Current plug state is unknown");
+                Console.WriteLine("Getting current plug status...");
+               
+                var objRequest = new PlugRequest();
+                var objResponse = objRequest.Request<PlugwiseStatusMessage>(this, PlugwiseActions.Status);
+                _blnOn = objResponse.On;
 
-                        objProc.Start();
-                        while (!objProc.StandardOutput.EndOfStream)
-                        {
-                            _blnOn = (objProc.StandardOutput.ReadLine() == "1") ? true : false;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        PlugRequest objRequest = new PlugRequest();
-                        PlugwiseStatusMessage objResponse = objRequest.Request<PlugwiseStatusMessage>(this, PlugwiseActions.Status);
-                        _blnOn = objResponse.On;
-                    }
-                    Console.WriteLine("Current Status is " + ((_blnOn == true) ? "ON" : "OFF"));
-                }
-                return _blnOn;
+                Console.WriteLine("Current Status is " + (_blnOn == true ? "ON" : "OFF"));
             }
-            set
-            {
-                Console.WriteLine("Setting Plug " + Mac + " to " + value.ToString());
-                _blnOn = (value == null) ? false : value;
 
-                plugwiseControl objConnection = PlugConnectionManager.GetConnection();
-                Console.WriteLine("Setting plug status of " + Mac + " to " + ((_blnOn == true) ? "ON" : "OFF"));
-                if (value == false)
-                {
-                    objConnection.Action(Mac, PlugwiseActions.Off);
-                }
-                else
-                {
-                    objConnection.Action(Mac, PlugwiseActions.On);
-                }
-                Console.WriteLine("Status Changed");
-            }
+            return _blnOn;
         }
-
-        void objConnection_DataReceived(object sender, EventArgs e, List<PlugwiseMessage> data)
+        set
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Setting Plug " + Mac + " to " + value);
+            _blnOn = value == null ? false : value;
+
+            var objConnection = PlugConnectionManager.GetConnection();
+            Console.WriteLine("Setting plug status of " + Mac + " to " + (_blnOn == true ? "ON" : "OFF"));
+            if (value == false)
+            {
+                objConnection.Action(Mac, PlugwiseActions.Off);
+            }
+            else
+            {
+                objConnection.Action(Mac, PlugwiseActions.On);
+            }
+
+            Console.WriteLine("Status Changed");
         }
+    }
+
+    private void objConnection_DataReceived(object sender, EventArgs e, List<PlugwiseMessage> data)
+    {
+        throw new NotImplementedException();
     }
 }
