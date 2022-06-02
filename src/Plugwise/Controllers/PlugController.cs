@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Plugwise.Objects;
+using PlugwiseControl.Message;
+using PlugwiseControl.Message.Responses;
 
 namespace Plugwise.Controllers;
 
@@ -21,14 +23,14 @@ public class PlugController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StickStatus))]
     public IActionResult Initialize()
     {
-        return Ok(_mapper.Map<StickStatus>(_plugService.Initialize()));
+        return GetResult<StickStatus>(_plugService.Initialize());
     }
 
     [HttpGet("[action]/{mac}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CircleInfo))]
     public IActionResult Circle(string mac)
     {
-        return Ok(_mapper.Map<CircleInfo>(_plugService.CircleInfo(mac)));
+        return GetResult<CircleInfo>(_plugService.CircleInfo(mac));
     }
 
     [HttpPost("[action]/{mac}")]
@@ -53,6 +55,18 @@ public class PlugController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Calibration))]
     public IActionResult Calibrate(string mac)
     {
-        return Ok(_mapper.Map<Calibration>(_plugService.Calibrate(mac)));
+        return GetResult<Calibration>(_plugService.Calibrate(mac));
+    }
+
+    [HttpPost("[action]/{mac}/{unixDStamp}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult SetDateTime(string mac, long unixDStamp)
+    {
+        return GetResult<ResultResponse>(_plugService.SetDateTime(mac, unixDStamp));
+    }
+
+    private IActionResult GetResult<T>(Response request)
+    {
+        return request.Status == Status.Success ? Ok(_mapper.Map<T>(request)) : Problem();
     }
 }

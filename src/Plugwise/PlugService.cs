@@ -22,12 +22,12 @@ internal class PlugService : IPlugService
 
     public bool On(string mac)
     {
-        return _plugControl.On(mac).State == SwitchState.On;
+        return _plugControl.On(mac).Status == Status.Success;
     }
 
     public bool Off(string mac)
     {
-        return _plugControl.Off(mac).State == SwitchState.Off;
+        return _plugControl.Off(mac).Status == Status.Success;
     }
 
     public CalibrationResponse Calibrate(string mac)
@@ -48,5 +48,10 @@ internal class PlugService : IPlugService
     public CircleInfoResponse CircleInfo(string mac)
     {
         return _plugControl.CircleInfo(mac);
+    }
+
+    public ResultResponse SetDateTime(string mac, long unixDStamp)
+    {
+        return _plugControl.SetDateTime(mac, unixDStamp);
     }
 }

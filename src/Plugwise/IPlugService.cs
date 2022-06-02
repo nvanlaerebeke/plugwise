@@ -10,4 +10,5 @@ public interface IPlugService
     CalibrationResponse Calibrate(string mac);
     double Usage(string mac);
     CircleInfoResponse CircleInfo(string mac);
+    ResultResponse SetDateTime(string mac, long unixDStamp);
 }

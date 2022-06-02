@@ -1,4 +1,6 @@
 using System;
+using PlugwiseControl.Calibration;
+using PlugwiseControl.Message;
 using PlugwiseControl.Message.Requests;
 using PlugwiseControl.Message.Responses;
 
@@ -6,12 +8,13 @@ namespace PlugwiseControl;
 
 public class PlugControl
 {
+    private readonly Calibrator _calibrator;
     private readonly RequestManager _requestManager;
 
     public PlugControl(string serialPort)
     {
         _requestManager = new RequestManager(serialPort);
-        //_requestManager.Send<StickStatusResponse>(new InitializeRequest());
+        _calibrator = new Calibrator(_requestManager);
     }
 
     public StickStatusResponse Initialize()
@@ -37,8 +40,12 @@ public class PlugControl
     public double GetUsage(string mac)
     {
         var usage = _requestManager.Send<PowerUsageResponse>(new PowerUsageRequest(mac));
-        var corrected = Correction(usage.Pulse1, Calibrate(mac));
-        return 1000 * ConversionClass.PulsesToKws(corrected);
+        if (usage.Status != Status.Success)
+        {
+            throw new Exception(usage.Status.ToString());
+        }
+
+        return _calibrator.GetCorrected(usage.Pulse1, mac);
     }
 
     public CircleInfoResponse CircleInfo(string mac)
@@ -46,11 +53,8 @@ public class PlugControl
         return _requestManager.Send<CircleInfoResponse>(new CircleInfoRequest(mac));
     }
 
-    private double Correction(int pulses, CalibrationResponse calibration)
+    public ResultResponse SetDateTime(string mac, long unixDStamp)
     {
-        return 1 * (
-            Math.Pow(pulses + calibration.OffsetNoise, 2) * calibration.GainB +
-            (pulses + calibration.OffsetNoise) * calibration.GainA + calibration.OffsetTotal
-        );
+        return _requestManager.Send<ResultResponse>(new SetDateTimeRequest(mac, unixDStamp));
     }
 }

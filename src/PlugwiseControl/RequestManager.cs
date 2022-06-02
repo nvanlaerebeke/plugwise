@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using PlugwiseControl.Message;
 using PlugwiseControl.Message.Responses;
 
 namespace PlugwiseControl;
@@ -27,16 +28,15 @@ internal class RequestManager
             //Send a request to the plugwise stick
             _currentRequest = new Request(new T());
             _connection.Send(request);
+            _wait.Reset();
 
             //Wait until response has been received
-            if (!_wait.WaitOne(5000))
+            if (!_wait.WaitOne())
             {
                 _receiving = string.Empty;
                 _currentRequest = null;
                 throw new Exception("Timeout waiting for stick");
             }
-
-            _wait.Reset();
 
             //return the response
             return _currentRequest.GetResponse<T>();
@@ -47,7 +47,6 @@ internal class RequestManager
     {
         //Skip '?' messages
         _receiving += data.Replace("?", string.Empty);
-        Console.WriteLine($"Current buffer: {_receiving}");
         while (true)
         {
             //Waiting for the end of the message
@@ -55,7 +54,7 @@ internal class RequestManager
             {
                 break;
             }
-            
+
             var index = _receiving.IndexOf("\r\n", StringComparison.Ordinal);
             var message = _receiving[..index]; //First Message
             _receiving = _receiving[(index + 2)..]; //"the rest"
@@ -69,16 +68,31 @@ internal class RequestManager
 
                 var stripped = !message.StartsWith('#') ? message[4..] : message;
                 Console.WriteLine("Message: " + stripped);
-                _currentRequest.AddData(stripped);
+                if (IsAckMessage(stripped, out var ackMessage))
+                {
+                    if (ackMessage.Status != Status.Success)
+                    {
+                        _currentRequest.Status = ackMessage.Status;
+                        _wait.Set();
+                        _receiving = string.Empty;
+                        break;
+                    }
+                }
+                else
+                {
+                    _currentRequest.AddData(stripped);
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                _currentRequest.Status = Status.Failed;
                 _wait.Set();
             }
 
             if (_currentRequest.IsComplete())
             {
+                _currentRequest.Status = Status.Success;
                 _wait.Set();
                 _receiving = string.Empty;
                 break;
@@ -93,5 +107,17 @@ internal class RequestManager
             //nothing to do, buffer is empty
             break;
         }
+    }
+
+    private static bool IsAckMessage(string message, out ResultResponse ackMessage)
+    {
+        if (message.StartsWith("0000"))
+        {
+            ackMessage = new ResultResponse(message);
+            return true;
+        }
+
+        ackMessage = null;
+        return false;
     }
 }
