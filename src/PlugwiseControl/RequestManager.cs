@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using PlugwiseControl.Message;
+using PlugwiseControl.Message.Requests;
 using PlugwiseControl.Message.Responses;
 
 namespace PlugwiseControl;
@@ -19,6 +20,8 @@ internal class RequestManager
         _connection = new ConnectionFactory().Get(serialPort);
         _connection.OnDataReceived(Received);
         _connection.Open();
+        
+        Send<StickStatusResponse>(new InitializeRequest());
     }
 
     public T Send<T>(Message.Request request) where T : Response, new()
@@ -31,7 +34,7 @@ internal class RequestManager
             _wait.Reset();
 
             //Wait until response has been received
-            if (!_wait.WaitOne())
+            if (!_wait.WaitOne(2000))
             {
                 _receiving = string.Empty;
                 _currentRequest = null;

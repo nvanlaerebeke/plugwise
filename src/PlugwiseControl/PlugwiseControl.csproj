@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Archive\2\plugwiselib-94877\PlugwiseLib.csproj"/>
+      <PackageReference Include="System.IO.Ports" Version="6.0.0" />
     </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ public class ResultResponse : Response
         Responses.Add(data);
     }
 
-    public Status Status
+    public override Status Status
     {
         get
         {

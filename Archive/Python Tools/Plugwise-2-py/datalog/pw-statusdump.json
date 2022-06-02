@@ -1,3 +1,0 @@
-{"circles": [
-{"always_on": "False", "cum_energy": 90.3065, "gain_a": 0.9884985685348511, "gain_b": -1.312718381996092e-06, "initialized": true, "interval": 1.0, "joined": false, "last_log": 894, "last_log_idx": 1, "last_log_ts": 1456336800, "last_seen": 1653237896, "location": "hall", "loginterval": 5, "mac": "000D6F0001A5A3B6", "name": "circle+", "off_noise": 0.0, "off_tot": 0.06803371012210846, "online": true, "online_changed": true, "pong": false, "power": [0, 0, 0, 0], "power_ts": 0, "production": false, "relay_state": "on", "requid": "unset", "reverse_pol": false, "schedule": null, "scheduleCRC": 17786, "schedule_state": "off", "switch_state": "?", "usage": true}
-] }

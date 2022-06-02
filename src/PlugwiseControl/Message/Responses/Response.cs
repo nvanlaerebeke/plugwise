@@ -5,7 +5,7 @@ namespace PlugwiseControl.Message.Responses;
 public abstract class Response
 {
     protected List<string> Responses { get; } = new();
-    public Status Status { get; set; }
+    public virtual Status Status { get; set; }
     public virtual string Code => Responses[0][..4];
     public virtual string Sequence => Responses[0][4..8];
     public virtual string Crc16 => Responses[0][..^4];
