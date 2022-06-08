@@ -1,0 +1,6 @@
+---
+modules:
+  default:
+    metrics:
+    - name: example_global_value
+      path: "{ .power_consumption }"

@@ -59,7 +59,7 @@ spec:
         - containerPort: 80
           name: plugwise-api
         env:
-          - name: DEMO_GREETINPLUGWISE_SERIAL_PORTG
+          - name: PLUGWISE_SERIAL_PORT
             value: "/dev/ttyUSB0"          
       volumes:
       - name: dev-usb0

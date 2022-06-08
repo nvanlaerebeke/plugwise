@@ -22,5 +22,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseAuthorization();
+
 app.MapControllers();
+app.MapGet("/", () => "Hello World");
+
 app.Run();
