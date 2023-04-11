@@ -1,6 +1,9 @@
 ---
 modules:
-  default:
+  plugwise:
     metrics:
-    - name: example_global_value
+    - name: power_consumption
       path: "{ .power_consumption }"
+      labels:
+        unit: '{.unit}'
+      help: "Power used by the given plug"
