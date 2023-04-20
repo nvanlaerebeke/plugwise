@@ -29,42 +29,4 @@ Make sure to also pass the correct path to the serial device in the `PLUGWISE_SE
 
 ## Run using kubernetes
 
-Example deployment:
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: plugwise-api
-  name:  plugwise-api
-spec:
-  selector:
-    matchLabels:
-      app:  plugwise-api
-  template:
-    metadata:
-      labels:
-        app:  plugwise-api
-    spec:
-      containers:
-      - image: registry.crazyzone.be/plugwise
-        name:  plugwise-api
-        volumeMounts:
-        - mountPath: /dev/ttyUSB
-          name: dev-usb0
-        securityContext:
-          privileged: true
-        ports:
-        - containerPort: 80
-          name: plugwise-api
-        env:
-          - name: PLUGWISE_SERIAL_PORT
-            value: "/dev/ttyUSB0"          
-      volumes:
-      - name: dev-usb0
-        hostPath:
-          path: /dev/ttyUSB0
-```
-
-Make sure to pass the correct USB device and set the environment variable where to find it.
+Helm chart is available in the `chart` directory.

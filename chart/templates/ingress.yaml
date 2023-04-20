@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-plugwise
+  annotations:
+      ingress.kubernetes.io/ssl-redirect: "true"
+      kubernetes.io/ingress.allow-http: "false"
+spec:
+  tls:
+    - secretName: {{ .Values.tlssecret }}
+      hosts:
+      {{- range $hostname := .Values.hostnames }}
+      - {{ $hostname }}
+      {{- end }}
+  rules:
+    {{- range $hostname := .Values.hostnames }}
+    - host: {{ $hostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.name }}
+                port:
+                  number: 80
+    {{- end }}
