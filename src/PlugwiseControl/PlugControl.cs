@@ -1,20 +1,21 @@
-using System;
+using PlugwiseControl.Cache;
 using PlugwiseControl.Calibration;
-using PlugwiseControl.Message;
 using PlugwiseControl.Message.Requests;
 using PlugwiseControl.Message.Responses;
 
 namespace PlugwiseControl;
 
-public class PlugControl
+public class PlugControl : IPlugControl
 {
     private readonly Calibrator _calibrator;
     private readonly RequestManager _requestManager;
-
+    private readonly UsageCache _usageCache;
+    
     public PlugControl(string serialPort)
     {
         _requestManager = new RequestManager(serialPort);
         _calibrator = new Calibrator(_requestManager);
+        _usageCache = new UsageCache(_requestManager, _calibrator);
     }
 
     public StickStatusResponse Initialize()
@@ -39,13 +40,7 @@ public class PlugControl
 
     public double GetUsage(string mac)
     {
-        var usage = _requestManager.Send<PowerUsageResponse>(new PowerUsageRequest(mac));
-        if (usage.Status != Status.Success)
-        {
-            throw new Exception(usage.Status.ToString());
-        }
-
-        return _calibrator.GetCorrected(usage.Pulse1, mac);
+        return _usageCache.Get(mac);
     }
 
     public CircleInfoResponse CircleInfo(string mac)

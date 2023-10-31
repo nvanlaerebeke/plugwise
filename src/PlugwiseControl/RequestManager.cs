@@ -6,7 +6,7 @@ using PlugwiseControl.Message.Responses;
 
 namespace PlugwiseControl;
 
-internal class RequestManager
+internal class RequestManager : IRequestManager
 {
     private readonly Connection _connection;
     private readonly object _requestLock = new();
