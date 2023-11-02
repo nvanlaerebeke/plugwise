@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using LanguageExt.Common;
 using PlugwiseControl.Message;
 using PlugwiseControl.Message.Requests;
 using PlugwiseControl.Message.Responses;
@@ -24,7 +25,7 @@ internal class RequestManager : IRequestManager
         Send<StickStatusResponse>(new InitializeRequest());
     }
 
-    public T Send<T>(Message.Request request) where T : Response, new()
+    public Result<T> Send<T>(Message.Request request) where T : Response, new()
     {
         lock (_requestLock)
         {
@@ -34,15 +35,13 @@ internal class RequestManager : IRequestManager
             _wait.Reset();
 
             //Wait until response has been received
-            if (!_wait.WaitOne(2000))
-            {
-                _receiving = string.Empty;
-                _currentRequest = null;
-                throw new Exception("Timeout waiting for stick");
+            if (_wait.WaitOne(2000)) {
+                return _currentRequest.GetResponse<T>();
             }
-
-            //return the response
-            return _currentRequest.GetResponse<T>();
+            
+            _receiving = string.Empty;
+            _currentRequest = null;
+            return new Result<T>(new TimeoutException());
         }
     }
 

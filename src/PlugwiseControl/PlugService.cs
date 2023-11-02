@@ -1,5 +1,4 @@
 using System;
-using Microsoft.OpenApi.Exceptions;
 using PlugwiseControl;
 using PlugwiseControl.Message;
 using PlugwiseControl.Message.Responses;
@@ -15,7 +14,7 @@ public class PlugService : IPlugService
         var serialPort = Environment.GetEnvironmentVariable("PLUGWISE_SERIAL_PORT");
         if (string.IsNullOrEmpty(serialPort))
         {
-            throw new OpenApiException("Plugwise serial port is not set, set environment variable PLUGWISE_SERIAL_PORT");
+            throw new Exception("Plugwise serial port is not set, set environment variable PLUGWISE_SERIAL_PORT");
         }
 
         _plugControl = new PlugControl(serialPort);

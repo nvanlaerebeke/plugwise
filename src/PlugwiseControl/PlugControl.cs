@@ -20,22 +20,22 @@ public class PlugControl : IPlugControl
 
     public StickStatusResponse Initialize()
     {
-        return _requestManager.Send<StickStatusResponse>(new InitializeRequest());
+        return _requestManager.Send<StickStatusResponse>(new InitializeRequest()).Match(r => r, ex => throw ex);
     }
 
     public SwitchOnRequest On(string mac)
     {
-        return _requestManager.Send<SwitchOnRequest>(new On(mac));
+        return _requestManager.Send<SwitchOnRequest>(new On(mac)).Match(r => r, ex => throw ex);
     }
 
     public SwitchOffResponse Off(string mac)
     {
-        return _requestManager.Send<SwitchOffResponse>(new Off(mac));
+        return _requestManager.Send<SwitchOffResponse>(new Off(mac)).Match(r => r, ex => throw ex);
     }
 
     public CalibrationResponse Calibrate(string mac)
     {
-        return _requestManager.Send<CalibrationResponse>(new CalibrationRequest(mac));
+        return _requestManager.Send<CalibrationResponse>(new CalibrationRequest(mac)).Match(r => r, ex => throw ex);
     }
 
     public double GetUsage(string mac)
@@ -45,11 +45,11 @@ public class PlugControl : IPlugControl
 
     public CircleInfoResponse CircleInfo(string mac)
     {
-        return _requestManager.Send<CircleInfoResponse>(new CircleInfoRequest(mac));
+        return _requestManager.Send<CircleInfoResponse>(new CircleInfoRequest(mac)).Match(r => r, ex => throw ex);
     }
 
     public ResultResponse SetDateTime(string mac, long unixDStamp)
     {
-        return _requestManager.Send<ResultResponse>(new SetDateTimeRequest(mac, unixDStamp));
+        return _requestManager.Send<ResultResponse>(new SetDateTimeRequest(mac, unixDStamp)).Match(r => r, ex => throw ex);
     }
 }

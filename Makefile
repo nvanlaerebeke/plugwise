@@ -4,7 +4,7 @@ PROJECT="Plugwise"
 PROJECT_LOWER=$(shell echo $(PROJECT) | tr A-Z a-z)
 PWD=$(shell pwd)
 
-REGISTRY:=registry.crazyzone.be
+REGISTRY:=harbor.crazyzone.be/crazyzone
 VERSION:=$(shell cat VERSION | tr --delete '/n')
 ARCH:=linux-x64
 PORT:=8080
@@ -21,7 +21,7 @@ container:
 	docker build -t "${REGISTRY}/${PROJECT_LOWER}:${VERSION}" .
 
 run: container
-	docker run -ti --rm \
+	docker run -ti --rm --no-cache --pull \
 		--name "${PROJECT_LOWER}" \
 		-p 8080:80 \
 		${REGISTRY}/${PROJECT_LOWER}:${VERSION}

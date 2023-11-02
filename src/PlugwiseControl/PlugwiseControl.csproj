@@ -5,13 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="LanguageExt.Core" Version="4.4.7" />
       <PackageReference Include="System.IO.Ports" Version="6.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="Microsoft.OpenApi">
-        <HintPath>..\..\..\..\..\.nuget\packages\microsoft.openapi\1.2.3\lib\netstandard2.0\Microsoft.OpenApi.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>

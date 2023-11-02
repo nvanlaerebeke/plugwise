@@ -18,13 +18,13 @@ spec:
       - image: "{{ .Values.global.registry }}/{{ .Values.global.image }}:{{ .Values.global.tag }}"
         name:  {{ $.Values.name }}
         volumeMounts:
-        - mountPath: /dev/ttyUSB
+        - mountPath: {{ $.Values.device.path }}
           name: dev-usb0
         securityContext:
           privileged: true
         env:
           - name: PLUGWISE_SERIAL_PORT
-            value: "/dev/ttyUSB0"            
+            value: {{ $.Values.device.path }}           
         ports:
         - containerPort: 80
           name: {{ $.Values.name }}

@@ -33,7 +33,7 @@ internal class Calibrator
             return calibration;
         }
 
-        calibration = _requestManager.Send<CalibrationResponse>(new CalibrationRequest(mac));
+        calibration = _requestManager.Send<CalibrationResponse>(new CalibrationRequest(mac)).Match(r => r, ex => throw ex);
         if (calibration.Status != Status.Success)
         {
             throw new Exception(calibration.Status.ToString());
