@@ -1,7 +1,6 @@
 namespace PlugwiseControl.Message;
 
-public enum SwitchState
-{
+public enum SwitchState {
     Off,
     On
 }

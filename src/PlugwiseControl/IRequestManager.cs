@@ -3,7 +3,6 @@ using PlugwiseControl.Message.Responses;
 
 namespace PlugwiseControl;
 
-internal interface IRequestManager
-{
+internal interface IRequestManager {
     Result<T> Send<T>(Message.Request request) where T : Response, new();
 }

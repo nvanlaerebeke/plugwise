@@ -2,8 +2,7 @@ using System;
 
 namespace PlugwiseControl.Message.Responses;
 
-public class CircleInfoResponse : Response
-{
+public class CircleInfoResponse : Response {
     public override string Code => Responses[2][..4];
     public override string Sequence => Responses[2][4..8];
     public override string Crc16 => Responses[2][..^4];
@@ -31,8 +30,7 @@ public class CircleInfoResponse : Response
 
     public string Type => Responses[3][64..66];
 
-    public override bool IsComplete()
-    {
+    public override bool IsComplete() {
         return
             Responses.Count.Equals(3) &&
             Responses[2].Length.Equals(70) &&

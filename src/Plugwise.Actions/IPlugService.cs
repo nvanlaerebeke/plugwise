@@ -1,14 +1,14 @@
+using LanguageExt.Common;
 using PlugwiseControl.Message.Responses;
 
-namespace Plugwise;
+namespace Plugwise.Actions;
 
-public interface IPlugService
-{
-    StickStatusResponse Initialize();
-    bool On(string mac);
-    bool Off(string mac);
-    CalibrationResponse Calibrate(string mac);
-    double Usage(string mac);
-    CircleInfoResponse CircleInfo(string mac);
-    ResultResponse SetDateTime(string mac, long unixDStamp);
+public interface IPlugService {
+    Result<StickStatusResponse> Initialize();
+    Result<bool> On(string mac);
+    Result<bool> Off(string mac);
+    Result<CalibrationResponse> Calibrate(string mac);
+    Result<double> Usage(string mac);
+    Result<CircleInfoResponse> CircleInfo(string mac);
+    Result<ResultResponse> SetDateTime(string mac, long unixDStamp);
 }

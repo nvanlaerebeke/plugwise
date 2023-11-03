@@ -2,13 +2,12 @@ using System;
 using System.Collections.Concurrent;
 using LanguageExt.Common;
 using PlugwiseControl.Calibration;
-using PlugwiseControl.Message;
 using PlugwiseControl.Message.Requests;
 using PlugwiseControl.Message.Responses;
 
 namespace PlugwiseControl.Cache;
 
-internal class UsageCache {
+internal class UsageCache : IUsageCache {
     private readonly ConcurrentDictionary<string, Usage> _cache = new();
     private readonly Calibrator _calibrator;
     private readonly IRequestManager _requestManager;
@@ -23,14 +22,13 @@ internal class UsageCache {
         //if it does not get it and add it to the cache
         if (
             !_cache.TryGetValue(mac, out var existingUsage) ||
-            existingUsage is null ||
             existingUsage.timeStamp <= DateTime.Now
         ) {
             return GetUsage(mac).Match(v => {
                 var newUsage = new Usage(mac, v, DateTime.Now.AddSeconds(5), 0);
                 _cache.AddOrUpdate(
-                    mac, 
-                    newUsage, 
+                    mac,
+                    newUsage,
                     (key, value) => newUsage
                 );
                 return v;
@@ -39,7 +37,7 @@ internal class UsageCache {
                 var timeoutSeconds = existingUsage is null ? 5 : existingUsage.timeOutSeconds + 5;
                 if (timeoutSeconds > 30) { timeoutSeconds = 30; }
 
-                var failedUsage = new Usage(mac, 0, DateTime.Now.AddSeconds(timeoutSeconds), timeoutSeconds); 
+                var failedUsage = new Usage(mac, 0, DateTime.Now.AddSeconds(timeoutSeconds), timeoutSeconds);
                 _cache.AddOrUpdate(mac, failedUsage, (key, value) => failedUsage);
                 return 0;
             });

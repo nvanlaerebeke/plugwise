@@ -2,8 +2,7 @@ using System.Collections.Generic;
 
 namespace PlugwiseControl.Message.Responses;
 
-public abstract class Response
-{
+public abstract class Response {
     protected List<string> Responses { get; } = new();
     public virtual Status Status { get; set; }
     public virtual string Code => Responses[0][..4];
@@ -12,10 +11,8 @@ public abstract class Response
 
     public abstract bool IsComplete();
 
-    protected bool IsComplete(int length, string code)
-    {
-        if (Responses.Count > 1)
-        {
+    protected bool IsComplete(int length, string code) {
+        if (Responses.Count > 1) {
             Status = Status.Failed;
         }
 
@@ -26,8 +23,7 @@ public abstract class Response
             ;
     }
 
-    public virtual void AddData(string data)
-    {
+    public virtual void AddData(string data) {
         Responses.Add(data);
     }
 }

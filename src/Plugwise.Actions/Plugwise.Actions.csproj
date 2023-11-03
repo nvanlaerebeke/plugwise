@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Plugwise.Config\Plugwise.Config.csproj" />
+        <ProjectReference Include="..\Plugwise.Error\Plugwise.Error.csproj" />
+        <ProjectReference Include="..\PlugwiseControl\PlugwiseControl.csproj"/>
+    </ItemGroup>
+
+</Project>

@@ -7,8 +7,7 @@ using PlugwiseControl.Message.Responses;
 
 namespace PlugwiseControl;
 
-internal class RequestManager : IRequestManager
-{
+internal class RequestManager : IRequestManager {
     private readonly Connection _connection;
     private readonly object _requestLock = new();
     private readonly ManualResetEvent _wait = new(false);
@@ -16,19 +15,16 @@ internal class RequestManager : IRequestManager
 
     private string _receiving = string.Empty;
 
-    public RequestManager(string serialPort)
-    {
+    public RequestManager(string serialPort) {
         _connection = new ConnectionFactory().Get(serialPort);
         _connection.OnDataReceived(Received);
         _connection.Open();
-        
+
         Send<StickStatusResponse>(new InitializeRequest());
     }
 
-    public Result<T> Send<T>(Message.Request request) where T : Response, new()
-    {
-        lock (_requestLock)
-        {
+    public Result<T> Send<T>(Message.Request request) where T : Response, new() {
+        lock (_requestLock) {
             //Send a request to the plugwise stick
             _currentRequest = new Request(new T());
             _connection.Send(request);
@@ -38,22 +34,19 @@ internal class RequestManager : IRequestManager
             if (_wait.WaitOne(2000)) {
                 return _currentRequest.GetResponse<T>();
             }
-            
+
             _receiving = string.Empty;
             _currentRequest = null;
             return new Result<T>(new TimeoutException());
         }
     }
 
-    private void Received(string data)
-    {
+    private void Received(string data) {
         //Skip '?' messages
         _receiving += data.Replace("?", string.Empty);
-        while (true)
-        {
+        while (true) {
             //Waiting for the end of the message
-            if (!_receiving.Contains("\r\n"))
-            {
+            if (!_receiving.Contains("\r\n")) {
                 break;
             }
 
@@ -61,39 +54,30 @@ internal class RequestManager : IRequestManager
             var message = _receiving[..index]; //First Message
             _receiving = _receiving[(index + 2)..]; //"the rest"
 
-            try
-            {
-                if (message.Length <= 4)
-                {
+            try {
+                if (message.Length <= 4) {
                     continue;
                 }
 
                 var stripped = !message.StartsWith('#') ? message[4..] : message;
                 Console.WriteLine("Message: " + stripped);
-                if (IsAckMessage(stripped, out var ackMessage))
-                {
-                    if (ackMessage.Status != Status.Success)
-                    {
+                if (IsAckMessage(stripped, out var ackMessage)) {
+                    if (ackMessage.Status != Status.Success) {
                         _currentRequest.Status = ackMessage.Status;
                         _wait.Set();
                         _receiving = string.Empty;
                         break;
                     }
-                }
-                else
-                {
+                } else {
                     _currentRequest.AddData(stripped);
                 }
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Console.WriteLine(ex);
                 _currentRequest.Status = Status.Failed;
                 _wait.Set();
             }
 
-            if (_currentRequest.IsComplete())
-            {
+            if (_currentRequest.IsComplete()) {
                 _currentRequest.Status = Status.Success;
                 _wait.Set();
                 _receiving = string.Empty;
@@ -101,8 +85,7 @@ internal class RequestManager : IRequestManager
             }
 
             //there is still data to read
-            if (_receiving != string.Empty)
-            {
+            if (_receiving != string.Empty) {
                 continue;
             }
 
@@ -111,10 +94,8 @@ internal class RequestManager : IRequestManager
         }
     }
 
-    private static bool IsAckMessage(string message, out ResultResponse ackMessage)
-    {
-        if (message.StartsWith("0000"))
-        {
+    private static bool IsAckMessage(string message, out ResultResponse ackMessage) {
+        if (message.StartsWith("0000")) {
             ackMessage = new ResultResponse(message);
             return true;
         }

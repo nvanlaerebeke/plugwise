@@ -1,52 +1,36 @@
-using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Plugwise.Actions;
-using Plugwise.Objects;
+using Plugwise.Api.Objects;
+using Plugwise.Config;
 
-namespace Plugwise.Controllers;
+namespace Plugwise.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MetricsController : ControllerBase
-{
-    private static readonly List<string> _macAddresses = new()
-    {
-        "000D6F0001A5A3B6",
-        "000D6F00004B9EA7",
-        "000D6F00004B992C",
-        "000D6F00004BC20A",
-        "000D6F00004BF588",
-        "000D6F00004BA1C6",
-        "000D6F000076B9B3",
-        "000D6F0000D31AB8"
-    };
-
-    private readonly IMapper _mapper;
+public class MetricsController : ControllerBase {
     private readonly IPlugService _plugService;
+    private readonly ISettings _settings;
 
-    public MetricsController(IMapper mapper, IPlugService plugService)
-    {
-        _mapper = mapper;
+    public MetricsController(IPlugService plugService, ISettings settings) {
         _plugService = plugService;
+        _settings = settings;
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Metrics))]
-    public IActionResult Get()
-    {
+    public IActionResult Get() {
         var plugs = new List<PlugMetric>();
-        _macAddresses.ForEach(m =>
-        {
-            try
-            {
-                var request = _plugService.Usage(m);
-                var usage = new Usage(request, "Wh");
-                plugs.Add(new PlugMetric(m, usage));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Unable to fetch usage for {m}: {ex.Message}");
-            }
+        _settings.MacAddresses.ToList().ForEach(m => {
+            _ = _plugService.Usage(m).Match(
+                r => {
+                    plugs.Add(new PlugMetric(m, new Usage(r, "Wh")));
+                    return true;
+                },
+                ex => {
+                    Console.WriteLine($"Unable to fetch usage for {m}: {ex.Message}");
+                    return false;
+                });
         });
         return Ok(new Metrics(plugs));
     }

@@ -1,55 +1,44 @@
+using LanguageExt.Common;
 using PlugwiseControl.Cache;
-using PlugwiseControl.Calibration;
 using PlugwiseControl.Message.Requests;
 using PlugwiseControl.Message.Responses;
 
 namespace PlugwiseControl;
 
-public class PlugControl : IPlugControl
-{
-    private readonly Calibrator _calibrator;
-    private readonly RequestManager _requestManager;
-    private readonly UsageCache _usageCache;
-    
-    public PlugControl(string serialPort)
-    {
-        _requestManager = new RequestManager(serialPort);
-        _calibrator = new Calibrator(_requestManager);
-        _usageCache = new UsageCache(_requestManager, _calibrator);
+internal class PlugControl : IPlugControl {
+    private readonly IRequestManager _requestManager;
+    private readonly IUsageCache _usageCache;
+
+    public PlugControl(IRequestManager requestManager, IUsageCache usageCache) {
+        _requestManager = requestManager;
+        _usageCache = usageCache;
     }
 
-    public StickStatusResponse Initialize()
-    {
-        return _requestManager.Send<StickStatusResponse>(new InitializeRequest()).Match(r => r, ex => throw ex);
+    public Result<StickStatusResponse> Initialize() {
+        return _requestManager.Send<StickStatusResponse>(new InitializeRequest());
     }
 
-    public SwitchOnRequest On(string mac)
-    {
-        return _requestManager.Send<SwitchOnRequest>(new On(mac)).Match(r => r, ex => throw ex);
+    public Result<SwitchOnResponse> On(string mac) {
+        return _requestManager.Send<SwitchOnResponse>(new OnRequest(mac));
     }
 
-    public SwitchOffResponse Off(string mac)
-    {
-        return _requestManager.Send<SwitchOffResponse>(new Off(mac)).Match(r => r, ex => throw ex);
+    public Result<SwitchOffResponse> Off(string mac) {
+        return _requestManager.Send<SwitchOffResponse>(new OffRequest(mac));
     }
 
-    public CalibrationResponse Calibrate(string mac)
-    {
-        return _requestManager.Send<CalibrationResponse>(new CalibrationRequest(mac)).Match(r => r, ex => throw ex);
+    public Result<CalibrationResponse> Calibrate(string mac) {
+        return _requestManager.Send<CalibrationResponse>(new CalibrationRequest(mac));
     }
 
-    public double GetUsage(string mac)
-    {
+    public Result<double> GetUsage(string mac) {
         return _usageCache.Get(mac);
     }
 
-    public CircleInfoResponse CircleInfo(string mac)
-    {
-        return _requestManager.Send<CircleInfoResponse>(new CircleInfoRequest(mac)).Match(r => r, ex => throw ex);
+    public Result<CircleInfoResponse> CircleInfo(string mac) {
+        return _requestManager.Send<CircleInfoResponse>(new CircleInfoRequest(mac));
     }
 
-    public ResultResponse SetDateTime(string mac, long unixDStamp)
-    {
-        return _requestManager.Send<ResultResponse>(new SetDateTimeRequest(mac, unixDStamp)).Match(r => r, ex => throw ex);
+    public Result<ResultResponse> SetDateTime(string mac, long unixDStamp) {
+        return _requestManager.Send<ResultResponse>(new SetDateTimeRequest(mac, unixDStamp));
     }
 }

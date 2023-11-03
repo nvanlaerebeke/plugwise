@@ -1,7 +1,6 @@
 namespace PlugwiseControl.Message;
 
-public enum Status
-{
+public enum Status {
     Success,
     Failed,
     TimeOut,

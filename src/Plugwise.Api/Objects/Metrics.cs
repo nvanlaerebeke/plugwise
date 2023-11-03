@@ -1,9 +1,7 @@
-namespace Plugwise.Objects;
+namespace Plugwise.Api.Objects;
 
-public class Metrics
-{
-    public Metrics(List<PlugMetric> metrics)
-    {
+public class Metrics {
+    public Metrics(List<PlugMetric> metrics) {
         Plugs = metrics;
     }
 

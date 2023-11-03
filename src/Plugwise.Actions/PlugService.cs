@@ -1,57 +1,75 @@
-using System;
+using LanguageExt.Common;
 using PlugwiseControl;
 using PlugwiseControl.Message;
 using PlugwiseControl.Message.Responses;
 
-namespace Plugwise;
+namespace Plugwise.Actions;
 
-public class PlugService : IPlugService
-{
-    private readonly PlugControl _plugControl;
+internal class PlugService : IPlugService {
+    private readonly IPlugControl _plugControl;
 
-    public PlugService()
-    {
-        var serialPort = Environment.GetEnvironmentVariable("PLUGWISE_SERIAL_PORT");
-        if (string.IsNullOrEmpty(serialPort))
-        {
-            throw new Exception("Plugwise serial port is not set, set environment variable PLUGWISE_SERIAL_PORT");
+    public PlugService(IPlugControl plugControl) {
+        _plugControl = plugControl;
+    }
+
+    public Result<bool> On(string mac) {
+        try {
+            return _plugControl.On(mac).Match(
+                r => r.Status == Status.Success,
+                ex => new Result<bool>(ex));
+        } catch (Exception ex) {
+            return new Result<bool>(ex);
         }
-
-        _plugControl = new PlugControl(serialPort);
     }
 
-    public bool On(string mac)
-    {
-        return _plugControl.On(mac).Status == Status.Success;
+    public Result<bool> Off(string mac) {
+        try {
+            return _plugControl.Off(mac).Match(
+                r => r.Status == Status.Success,
+                ex => new Result<bool>(ex)
+            ); 
+        } catch (Exception ex) {
+            return new Result<bool>(ex);
+        }
     }
 
-    public bool Off(string mac)
-    {
-        return _plugControl.Off(mac).Status == Status.Success;
+    public Result<CalibrationResponse> Calibrate(string mac) {
+        try {
+            return _plugControl.Calibrate(mac);
+        } catch (Exception ex) {
+            return new Result<CalibrationResponse>(ex);
+        }
     }
 
-    public CalibrationResponse Calibrate(string mac)
-    {
-        return _plugControl.Calibrate(mac);
+    public Result<double> Usage(string mac) {
+        try {
+            return _plugControl.GetUsage(mac);
+        } catch (Exception ex) {
+            return new Result<double>(ex);
+        }
     }
 
-    public double Usage(string mac)
-    {
-        return _plugControl.GetUsage(mac);
+    public Result<StickStatusResponse> Initialize() {
+        try {
+            return _plugControl.Initialize();
+        } catch (Exception ex) {
+            return new Result<StickStatusResponse>(ex);
+        }
     }
 
-    public StickStatusResponse Initialize()
-    {
-        return _plugControl.Initialize();
+    public Result<CircleInfoResponse> CircleInfo(string mac) {
+        try {
+            return _plugControl.CircleInfo(mac);
+        } catch (Exception ex) {
+            return new Result<CircleInfoResponse>(ex);
+        }
     }
 
-    public CircleInfoResponse CircleInfo(string mac)
-    {
-        return _plugControl.CircleInfo(mac);
-    }
-
-    public ResultResponse SetDateTime(string mac, long unixDStamp)
-    {
-        return _plugControl.SetDateTime(mac, unixDStamp);
+    public Result<ResultResponse> SetDateTime(string mac, long unixDStamp) {
+        try {
+            return _plugControl.SetDateTime(mac, unixDStamp);
+        } catch (Exception ex) {
+            return new Result<ResultResponse>(ex);
+        }
     }
 }
