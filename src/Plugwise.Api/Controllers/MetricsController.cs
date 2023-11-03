@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Plugwise.Actions;
 using Plugwise.Objects;
 
 namespace Plugwise.Controllers;

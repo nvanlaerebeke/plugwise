@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Plugwise.Actions;
 using Plugwise.Objects;
 using PlugwiseControl.Message;
 using PlugwiseControl.Message.Responses;
