@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using LanguageExt.Common;
+using LanguageExt.Pretty;
 using PlugwiseControl.Message;
 using PlugwiseControl.Message.Requests;
 using PlugwiseControl.Message.Responses;
@@ -11,12 +12,17 @@ internal class RequestManager : IRequestManager {
     private readonly Connection _connection;
     private readonly object _requestLock = new();
     private readonly ManualResetEvent _wait = new(false);
-    private Request _currentRequest;
+    private Request? _currentRequest;
 
     private string _receiving = string.Empty;
 
     public RequestManager(string serialPort) {
         _connection = new ConnectionFactory().Get(serialPort);
+    }
+
+    public void Open() {
+        Console.WriteLine("Opening Connection and sending init");
+
         _connection.OnDataReceived(Received);
         _connection.Open();
 
@@ -32,6 +38,7 @@ internal class RequestManager : IRequestManager {
 
             //Wait until response has been received
             if (_wait.WaitOne(2000)) {
+                Console.WriteLine($"Response Received: {request.GetType()}");
                 return _currentRequest.GetResponse<T>();
             }
 
@@ -46,11 +53,14 @@ internal class RequestManager : IRequestManager {
         _receiving += data.Replace("?", string.Empty);
         while (true) {
             //Waiting for the end of the message
-            if (!_receiving.Contains("\r\n")) {
+            if (!_receiving.Contains("\r\n") || _receiving.Length.Equals(0)) {
                 break;
             }
 
             var index = _receiving.IndexOf("\r\n", StringComparison.Ordinal);
+            if (index <= 0) {
+                continue;
+            }
             var message = _receiving[..index]; //First Message
             _receiving = _receiving[(index + 2)..]; //"the rest"
 

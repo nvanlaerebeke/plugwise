@@ -1,15 +1,15 @@
 ﻿namespace Plugwise.Config;
 
 internal class Settings : ISettings {
-    public IEnumerable<string> MacAddresses => new List<string>() {
-        "000D6F0001A5A3B6",
-        "000D6F00004B9EA7",
-        "000D6F00004B992C",
-        "000D6F00004BC20A",
-        "000D6F00004BF588",
-        "000D6F00004BA1C6",
-        "000D6F000076B9B3",
-        "000D6F0000D31AB8"
+    public List<string> MacAddresses => new List<string>() {
+        "000D6F0001A5A3B6", //Rack
+        //"000D6F00004B9EA7",
+        "000D6F00004B992C", //Freezer + Fridge
+        "000D6F00004BC20A", //Desk Tatjana
+        "000D6F00004BF588", //Desk Nico
+        "000D6F00004BA1C6", //Lego Display
+        "000D6F000076B9B3", //Water Fountain
+        //"000D6F0000D31AB8"
     };
     
     public string SerialPort {

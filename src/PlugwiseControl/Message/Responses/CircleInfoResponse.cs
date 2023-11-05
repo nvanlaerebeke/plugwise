@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PlugwiseControl.Message.Responses;
 
@@ -17,18 +18,22 @@ public class CircleInfoResponse : Response {
             Convert.ToInt32(Responses[2][28..32], 16)
         );
 
-    public string CurrentLog => Responses[2][32..40];
+    public string CurrentLog => Responses.Count >= 40 ? Responses[2][32..40] : string.Empty;
     public SwitchState State => Responses[2][40..42] == "00" ? SwitchState.Off : SwitchState.On;
-    public string Hertz => Responses[2][42..44];
+    public string Hertz => Responses.Count >= 44 ?  Responses[2][42..44] : string.Empty;
 
-    public string HW1 => Responses[2][44..48];
-    public string HW2 => Responses[2][48..52];
-    public string HW3 => Responses[2][52..56];
+    public string HW1 => Responses.Count >= 48 ?  Responses[2][44..48] : String.Empty;
+    public string HW2 => Responses.Count >= 52 ? Responses[2][48..52] : string.Empty;
+    public string HW3 => Responses.Count >= 56 ? Responses[2][52..56] : string.Empty;
 
     // => d/m/y
-    public string Firmware => Responses[2][56..64];
+    public string Firmware => Responses.Count >= 64 ? Responses[2][56..64] : string.Empty;
 
-    public string Type => Responses[3][64..66];
+    public string Type {
+        get {
+            return Responses.Count >= 66 ? Responses[3][64..66] : string.Empty;
+        }
+    }
 
     public override bool IsComplete() {
         return
