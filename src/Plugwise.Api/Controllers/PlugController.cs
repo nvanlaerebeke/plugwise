@@ -89,16 +89,24 @@ public class PlugController : ControllerBase {
 
     [HttpPost("[action]/{mac}")]
     public IActionResult On(string mac) {
-        if (!_settings.Plugs.Select(p => p.Mac).Contains(mac)) {
+        var plug = _settings.Plugs.FirstOrDefault(p => p.Mac.Equals(mac));
+        if(plug is null) {
             return NotFound();
+        }
+        if (!plug.PowerControl) {
+            return Unauthorized();
         }
         return _plugService.On(mac).ToOk(_ => Ok());
     }
 
     [HttpPost("[action]/{mac}")]
     public IActionResult Off(string mac) {
-        if (!_settings.Plugs.Select(p => p.Mac).Contains(mac)) {
+        var plug = _settings.Plugs.FirstOrDefault(p => p.Mac.Equals(mac));
+        if(plug is null) {
             return NotFound();
+        }
+        if (!plug.PowerControl) {
+            return Unauthorized();
         }
         return _plugService.Off(mac).ToOk(_ => Ok());
     }
@@ -114,8 +122,12 @@ public class PlugController : ControllerBase {
     [HttpGet("[action]/{mac}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Calibration))]
     public IActionResult Calibrate(string mac) {
-        if (!_settings.Plugs.Select(p => p.Mac).Contains(mac)) {
+        var plug = _settings.Plugs.FirstOrDefault(p => p.Mac.Equals(mac));
+        if(plug is null) {
             return NotFound();
+        }
+        if (!plug.PowerControl) {
+            return Unauthorized();
         }
         return _plugService.Calibrate(mac).ToOk(r => r.ToApiObject());
     }
@@ -123,8 +135,12 @@ public class PlugController : ControllerBase {
     [HttpPost("[action]/{mac}/{unixDStamp}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult SetDateTime(string mac, long unixDStamp) {
-        if (!_settings.Plugs.Select(p => p.Mac).Contains(mac)) {
+        var plug = _settings.Plugs.FirstOrDefault(p => p.Mac.Equals(mac));
+        if(plug is null) {
             return NotFound();
+        }
+        if (!plug.PowerControl) {
+            return Unauthorized();
         }
         return _plugService.SetDateTime(mac, unixDStamp).ToOk(_ => Ok());
     }

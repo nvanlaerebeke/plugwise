@@ -9,7 +9,11 @@ public class PlugInfo : PlugMetric {
     public PlugInfo(Plug plug, Usage usage, CircleInfoResponse circleInfo) : base(plug, usage) {
         AllowUpdateState = plug.PowerControl;
         SwitchState = circleInfo.State;
+        Mac = plug.Mac;
     }
+    
+    [JsonPropertyName("mac")]
+    public string Mac { get; }
     
     [JsonPropertyName("switchState")]
     [JsonConverter(typeof(JsonStringEnumConverter))]
