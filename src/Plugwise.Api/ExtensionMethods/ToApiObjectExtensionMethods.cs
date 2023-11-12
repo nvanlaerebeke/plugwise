@@ -12,7 +12,7 @@ internal static class ToApiObjectExtensionMethods {
         };
     }
     
-    public static CircleInfo ToApiObject(this CircleInfoResponse circleInfoResponse) {
+    public static CircleInfo ToApiObject(this CircleInfoResponse circleInfoResponse, double usage) {
         return new CircleInfo {
             CirclePlusMac = circleInfoResponse.CirclePlusMac,
             Date = circleInfoResponse.Date,
@@ -26,7 +26,8 @@ internal static class ToApiObjectExtensionMethods {
             HW2 = circleInfoResponse.HW2,
             HW3 = circleInfoResponse.HW3,
             Firmware = circleInfoResponse.Firmware,
-            Type = circleInfoResponse.Type
+            Type = circleInfoResponse.Type,
+            Usage = usage
         };
     }
 

@@ -1,6 +1,8 @@
-﻿namespace Plugwise.Config;
+﻿using CrazyMobile.Config;
+
+namespace Plugwise.Config;
 
 public interface ISettings {
-    List<string> MacAddresses { get; }
+    List<Plug> Plugs { get; }
     string SerialPort { get; }
 }

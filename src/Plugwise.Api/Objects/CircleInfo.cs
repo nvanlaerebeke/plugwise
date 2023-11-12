@@ -42,4 +42,7 @@ public class CircleInfo {
 
     [JsonPropertyName("type")] 
     public string Type { get; set; } = string.Empty;
+    
+    [JsonPropertyName("usage")]
+    public double Usage { get; set; } 
 }
