@@ -1,4 +1,5 @@
-﻿using Plugwise.Api.Objects;
+﻿using CrazyMobile.Config;
+using Plugwise.Api.Objects;
 using PlugwiseControl.Message;
 using PlugwiseControl.Message.Responses;
 
@@ -12,7 +13,7 @@ internal static class ToApiObjectExtensionMethods {
         };
     }
     
-    public static CircleInfo ToApiObject(this CircleInfoResponse circleInfoResponse, double usage) {
+    public static CircleInfo ToApiObject(this CircleInfoResponse circleInfoResponse, Plug plug, double usage) {
         return new CircleInfo {
             CirclePlusMac = circleInfoResponse.CirclePlusMac,
             Date = circleInfoResponse.Date,
@@ -27,7 +28,10 @@ internal static class ToApiObjectExtensionMethods {
             HW3 = circleInfoResponse.HW3,
             Firmware = circleInfoResponse.Firmware,
             Type = circleInfoResponse.Type,
-            Usage = usage
+            Usage = usage,
+            Name = plug.Name,
+            Mac = plug.Mac,
+            AllowStateUpdate = plug.PowerControl
         };
     }
 

@@ -22,9 +22,9 @@ public class PlugController : ControllerBase {
     }
 
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PlugMetric))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CircleInfo>))]
     public IActionResult Get() {
-        var plugs = new List<PlugMetric>();
+        var plugs = new List<CircleInfo>();
         _settings.Plugs.Select(p => p).ToList().ForEach(plug => {
             var usageResult = _plugService.Usage(plug.Mac);
             var stateResult = _plugService.CircleInfo(plug.Mac);
@@ -45,9 +45,9 @@ public class PlugController : ControllerBase {
             
             var usage = usageResult.Match(u => u, ex => throw ex);
             var circleInfo = stateResult.Match(s => s, ex => throw ex);
-            plugs.Add(new PlugInfo(plug, new Usage(usage, "Wh"), circleInfo));
+            plugs.Add(circleInfo.ToApiObject(plug, usage));
         });
-        return Ok(new Metrics(plugs));
+        return Ok(plugs);
     }
 
     [HttpGet("[action]")]
@@ -56,7 +56,7 @@ public class PlugController : ControllerBase {
         return _plugService.Initialize().ToOk(r => r.ToApiObject());
     }
 
-    [HttpGet("[action]/{mac}")]
+    [HttpGet("/[controller]/{mac}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CircleInfo))]
     public IActionResult Circle(string mac) {
         var plug = _settings.Plugs.FirstOrDefault(p => p.Mac.Equals(mac));
@@ -84,7 +84,7 @@ public class PlugController : ControllerBase {
             
         var usage = usageResult.Match(u => u, ex => throw ex);
         var circleInfo = stateResult.Match(s => s, ex => throw ex);
-        return new OkObjectResult(circleInfo.ToApiObject(usage));
+        return new OkObjectResult(circleInfo.ToApiObject(plug, usage));
     }
 
     [HttpPost("[action]/{mac}")]
