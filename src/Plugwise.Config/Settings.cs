@@ -11,8 +11,8 @@ internal class Settings : ISettings {
         new("000D6F0000D31AB8", "Disney Christmas Tree", true, true),
         new("000D6F00004B9EA7", "Christmas Village", true, true),
         new("000D6F00004BC20A", "Book Case", true, true),
-        new("000D6F00004BA287", "Bar Cabinet", true, true),
-        new("000D6F000076B9B3", "Water Fountain", true, true)
+        new("000D6F000076B9B3", "Bar Cabinet", true, true),
+        new("000D6F00004BA287", "Water Fountain", true, true)
     };
     /*public List<string> MacAddresses => new List<string>() {
         "000D6F0001A5A3B6", //Rack
