@@ -54,7 +54,11 @@ internal class UsageCache : IUsageCache {
         return _requestManager.Send<PowerUsageResponse>(new PowerUsageRequest(mac)).Match(
             v => {
                 if (v.Status == Status.Success) {
-                    return _calibrator.GetCorrected(v.Pulse1, mac);
+                    try {
+                        return _calibrator.GetCorrected(v.Pulse1, mac);
+                    } catch (Exception ex) {
+                        return new Result<double>(ex);
+                    }
                 }
                 return new Result<double>(new Exception($"GetUsage request to {mac} not successful ({v.Status})"));
             },

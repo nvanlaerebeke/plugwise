@@ -8,6 +8,6 @@ public static class ApiErrorMessage {
     };
 
     public static string GetMessageForCode(ApiErrorCode code) {
-        return Messages[code];
+        return Messages.TryGetValue(code, out string? value) ? value : Messages[ApiErrorCode.UnknownError];
     }
 }

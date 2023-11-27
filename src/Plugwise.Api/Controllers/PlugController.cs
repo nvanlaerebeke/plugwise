@@ -25,28 +25,36 @@ public class PlugController : ControllerBase {
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CircleInfo>))]
     public IActionResult Get() {
         var plugs = new List<CircleInfo>();
+        var tasks = new List<Task>();
         _settings.Plugs.Select(p => p).ToList().ForEach(plug => {
-            var usageResult = _plugService.Usage(plug.Mac);
-            var stateResult = _plugService.CircleInfo(plug.Mac);
+            tasks.Add(Task.Run(() => {
+                var usageResult = _plugService.Usage(plug.Mac);
+                var stateResult = _plugService.CircleInfo(plug.Mac);
 
-            if (
-                !usageResult.IsSuccess || 
-                !stateResult.IsSuccess
-            ) {
-                _logger.LogError("Unable to fetch usage or state for {Mac}", plug.Mac);
-                if (usageResult.IsFaulted) {
-                    _logger.LogError("Error fetching usage: {Error}", usageResult.Match(_ => string.Empty, ex => ex.Message));
+                if (
+                    !usageResult.IsSuccess || 
+                    !stateResult.IsSuccess
+                ) {
+                    _logger.LogError("Unable to fetch usage or state for {Mac}", plug.Mac);
+                    if (usageResult.IsFaulted) {
+                        _logger.LogError("Error fetching usage: {Error}", usageResult.Match(_ => string.Empty, ex => ex.Message));
+                    }
+                    if (stateResult.IsFaulted) {
+                        _logger.LogError("Error fetching state: {Error}", stateResult.Match(_ => string.Empty, ex => ex.Message));
+                    }
+                    return;
                 }
-                if (stateResult.IsFaulted) {
-                    _logger.LogError("Error fetching state: {Error}", stateResult.Match(_ => string.Empty, ex => ex.Message));
-                }
-                return;
-            }
             
-            var usage = usageResult.Match(u => u, ex => throw ex);
-            var circleInfo = stateResult.Match(s => s, ex => throw ex);
-            plugs.Add(circleInfo.ToApiObject(plug, usage));
+                var usage = usageResult.Match(u => u, ex => throw ex);
+                var circleInfo = stateResult.Match(s => s, ex => throw ex);
+                if (!circleInfo.IsComplete()) {
+                    return;
+                }
+
+                plugs.Add(circleInfo.ToApiObject(plug, usage));
+            }));
         });
+        Task.WaitAll(tasks.ToArray());
         return Ok(plugs);
     }
 

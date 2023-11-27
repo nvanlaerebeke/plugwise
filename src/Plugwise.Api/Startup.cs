@@ -16,8 +16,12 @@ public class Startup {
         //Initialize
         var settings = new SettingsProvider().Get();
         builder.Services.AddSingleton(settings);
-        
-        new Actions.Startup().Setup(builder.Services, settings.SerialPort);
+
+        try {
+            new Actions.Startup().Setup(builder.Services, settings.SerialPort);
+        } catch (Exception ex) {
+            Console.WriteLine(ex);
+        }
 
         var app = builder.Build();
 

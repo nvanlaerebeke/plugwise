@@ -9,6 +9,7 @@ using PlugwiseControl.Message.Responses;
 namespace PlugwiseControl;
 
 internal class RequestManager : IRequestManager {
+    private const int TimeOutDuration = 5000;
     private readonly Connection _connection;
     private readonly object _requestLock = new();
     private readonly ManualResetEvent _wait = new(false);
@@ -37,7 +38,7 @@ internal class RequestManager : IRequestManager {
             _wait.Reset();
 
             //Wait until response has been received
-            if (_wait.WaitOne(2000)) {
+            if (_wait.WaitOne(TimeOutDuration)) {
                 Console.WriteLine($"Response Received: {request.GetType()}");
                 return _currentRequest.GetResponse<T>();
             }
@@ -52,6 +53,9 @@ internal class RequestManager : IRequestManager {
         //Skip '?' messages
         _receiving += data.Replace("?", string.Empty);
         while (true) {
+            if (_currentRequest is null) {
+                continue;
+            }
             //Waiting for the end of the message
             if (!_receiving.Contains("\r\n") || _receiving.Length.Equals(0)) {
                 break;

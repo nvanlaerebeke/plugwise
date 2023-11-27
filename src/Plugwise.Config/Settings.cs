@@ -5,13 +5,14 @@ namespace Plugwise.Config;
 internal class Settings : ISettings {
     public List<Plug> Plugs => new() {
         new("000D6F0001A5A3B6", "Rack", false, true),
-        //000D6F00004B9EA7 = ?
-        new("000D6F00004BC20A", "Desk Tatjana", false, true),
         new("000D6F00004BF588", "Desk Nico", false, true),
-        new("000D6F00004B992C", "Freezer + Fridge", false, true),
         new("000D6F00004BA1C6", "Lego Display", true, true),
+        new("000D6F00004B992C", "Purple Christmas Tree", true, true),
+        new("000D6F0000D31AB8", "Disney Christmas Tree", true, true),
+        new("000D6F00004B9EA7", "Christmas Village", true, true),
+        new("000D6F00004BC20A", "Book Case", true, true),
+        new("000D6F00004BA287", "Bar Cabinet", true, true),
         new("000D6F000076B9B3", "Water Fountain", true, true)
-        //"000D6F0000D31AB8"
     };
     /*public List<string> MacAddresses => new List<string>() {
         "000D6F0001A5A3B6", //Rack
